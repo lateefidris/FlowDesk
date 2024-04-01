@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_01_175425) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_01_202903) do
   create_table "availabilities", force: :cascade do |t|
     t.integer "desk_id", null: false
     t.string "day_of_the_week"
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_01_175425) do
     t.integer "professional_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["professional_id"], name: "index_desks_on_professional_id"
+    t.index ["professional_id"], name: "index_desks_on_professional_id", unique: true
   end
 
   create_table "services", force: :cascade do |t|

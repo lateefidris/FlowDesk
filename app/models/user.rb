@@ -26,5 +26,5 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many  :desks, class_name: "Desk", foreign_key: "professional_id", dependent: :destroy
+  has_one  :desks, class_name: "Desk", foreign_key: "professional_id", dependent: :destroy
 end

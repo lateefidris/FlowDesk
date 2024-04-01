@@ -17,8 +17,7 @@
   </div>
 
   <div>
-    <%= form.label :desk_id, style: "display: block" %>
-    <%= form.text_field :desk_id %>
+    <%= form.hidden_field :desk_id, value: current_user.desks.id  %>
   </div>
 
   <div>

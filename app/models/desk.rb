@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_desks_on_professional_id  (professional_id)
+#  index_desks_on_professional_id  (professional_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -21,6 +21,7 @@
 #
 class Desk < ApplicationRecord
   belongs_to :professional, required: true, class_name: "User", foreign_key: "professional_id"
+  validates :professional_id, uniqueness: true
   has_many  :categories, class_name: "Category", foreign_key: "desk_id", dependent: :destroy
   has_many  :bookings, class_name: "Booking", foreign_key: "desk_id", dependent: :destroy
   has_one  :availability, class_name: "Availability", foreign_key: "desk_id", dependent: :destroy

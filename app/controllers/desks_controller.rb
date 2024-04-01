@@ -21,18 +21,26 @@ class DesksController < ApplicationController
 
   # POST /desks or /desks.json
   def create
-    @desk = Desk.new(desk_params)
-
-    respond_to do |format|
-      if @desk.save
-        format.html { redirect_to desk_url(@desk), notice: "Desk was successfully created." }
-        format.json { render :show, status: :created, location: @desk }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @desk.errors, status: :unprocessable_entity }
+    if current_user.desks.present?
+      respond_to do |format|
+        format.html { redirect_to current_user.desks, alert: "You already have a desk." }
+        format.json { render json: { error: "User already has a desk" }, status: :unprocessable_entity }
+      end
+    else
+      @desk = current_user.build_desk(desk_params) 
+  
+      respond_to do |format|
+        if @desk.save
+          format.html { redirect_to desk_url(@desk), notice: "Desk was successfully created." }
+          format.json { render :show, status: :created, location: @desk }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @desk.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
+  
 
   # PATCH/PUT /desks/1 or /desks/1.json
   def update
