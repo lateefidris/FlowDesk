@@ -19,5 +19,5 @@
 #  desk_id  (desk_id => desks.id)
 #
 class Availability < ApplicationRecord
-  belongs_to :desk
+  belongs_to :desk, required: true, class_name: "Desk", foreign_key: "desk_id"
 end

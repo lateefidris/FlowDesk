@@ -17,5 +17,6 @@
 #  desk_id  (desk_id => desks.id)
 #
 class Category < ApplicationRecord
-  belongs_to :desk
+  belongs_to :desk, required: true, class_name: "Desk", foreign_key: "desk_id"
+  has_many  :services, class_name: "Service", foreign_key: "category_id", dependent: :destroy
 end

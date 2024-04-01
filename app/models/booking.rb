@@ -22,6 +22,6 @@
 #  service_id  (service_id => services.id)
 #
 class Booking < ApplicationRecord
-  belongs_to :desk
-  belongs_to :service
+  belongs_to :desk, required: true, class_name: "Desk", foreign_key: "desk_id"
+  belongs_to :service, required: true, class_name: "Service", foreign_key: "service_id"
 end
