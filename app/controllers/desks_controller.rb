@@ -3,7 +3,7 @@ class DesksController < ApplicationController
 
   # GET /desks or /desks.json
   def index
-    @desks = Desk.all
+    @my_desk = current_user.desks
   end
 
   # GET /desks/1 or /desks/1.json
@@ -27,7 +27,7 @@ class DesksController < ApplicationController
         format.json { render json: { error: "User already has a desk" }, status: :unprocessable_entity }
       end
     else
-      @desk = current_user.build_desk(desk_params) 
+      @desk = current_user.build_desks(desk_params) 
   
       respond_to do |format|
         if @desk.save
