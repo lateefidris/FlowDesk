@@ -1,9 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
-<h1><%= current_user.desks.name %> Desk</h1>
-
 <div id="desks">
   <% if current_user.desks.present? %>
+  <h1><%= current_user.desks.name %> Desk</h1>
     <%= render current_user.desks %>
     <p>
       <%= link_to "Show this desk", desk_path(current_user.desks) %>
