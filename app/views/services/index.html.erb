@@ -1,12 +1,23 @@
 <p style="color: green"><%= notice %></p>
 
+<%= link_to "New category", new_category_path %> |
+<%= link_to "New service", new_service_path %>
+
 <div id="services">
   <% current_user.desks.categories.each do |category| %>
-    <%= category.name %>
-    <p>
-      <%= link_to "Show this service", category %>
-    </p>
+    <ul>
+      <li><%= category.name %> |
+        <%= link_to 'Edit category', edit_category_path(category) %>
+      </li>
+<br>
+      <div>
+        <% category.services.each do |service| %>
+          <%= service.name %> |
+          <%= link_to 'View Service ', service_path(service) %> |
+          <%= link_to 'Edit Service ', edit_service_path(service) %>|
+          <%= link_to 'Delete Service', service_path(service), data: { turbo_method: :delete } %>
+        </div>
+      <% end %>
+    </ul>
   <% end %>
 </div>
-
-<%= link_to "New service", new_service_path %>
