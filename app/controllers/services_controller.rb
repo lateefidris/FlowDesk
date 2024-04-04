@@ -1,5 +1,6 @@
 class ServicesController < ApplicationController
   before_action :set_service, only: %i[ show edit update destroy ]
+  before_action :set_categories, only: [:new, :edit, :create, :update]
 
   # GET /services or /services.json
   def index
@@ -61,6 +62,12 @@ class ServicesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_service
       @service = Service.find(params[:id])
+    end
+
+    def set_categories
+      # Assuming you have a way to identify the current user's desk
+      # and that the Desk has a 'categories' association.
+      @categories = current_user.desks.categories if current_user&.desks
     end
 
     # Only allow a list of trusted parameters through.

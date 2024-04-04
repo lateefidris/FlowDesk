@@ -1,14 +1,16 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Desks</h1>
-
 <div id="desks">
-  <% @desks.each do |desk| %>
-    <%= render desk %>
-    <p>
-      <%= link_to "Show this desk", desk %>
-    </p>
+  <% if current_user.desks.present? %>
+    <div>
+      <%= render current_user.desks %>
+      <p>
+        <%= link_to "Edit desk", edit_desk_path(current_user.desks) %>
+      </p>
+
+      <hr>
+    </div>
+  <% else %>
+    <%= link_to "New Desk", new_desk_path %>
   <% end %>
 </div>
-
-<%= link_to "New desk", new_desk_path %>

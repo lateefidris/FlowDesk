@@ -5,6 +5,6 @@
 <br>
 
 <div>
-  <%= link_to "Show this category", @category %> |
-  <%= link_to "Back to categories", categories_path %>
+  <%= link_to "Back to servies", services_path %>
+  <%= link_to 'Delete Category ', category_path(@category), data: { turbo_method: :delete } %>
 </div>

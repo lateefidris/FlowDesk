@@ -1,27 +1,14 @@
 <div id="<%= dom_id desk %>">
-  <p>
-    <strong>Name:</strong>
-    <%= desk.name %>
-  </p>
+  <%= image_tag desk.profile_picture, alt: "profile picture", style: "height: 80px;" %>
+
+  <h1><%= current_user.desks.name %></h1>
 
   <p>
-    <strong>Bio:</strong>
-    <%= desk.bio %>
-  </p>
-
-  <p>
-    <strong>Location:</strong>
     <%= desk.location %>
   </p>
 
   <p>
-    <strong>Profile picture:</strong>
-    <%= desk.profile_picture %>
-  </p>
-
-  <p>
-    <strong>Professional:</strong>
-    <%= desk.professional_id %>
+    <%= desk.bio %>
   </p>
 
 </div>
