@@ -1,7 +1,7 @@
 databases:
   - name: flow-desk
-    databaseName: flow-desk
-    user: flow-desk_user
+    databaseName: flow_desk
+    user: flow_desk_user
     plan: free
 
 services:
@@ -14,7 +14,7 @@ services:
     envVars: # this section sets some ENV variables needed by Render for deployment
       - KEY: DATABASE_URL
         fromDatabase:
-          name: flow-desk
+          name: flow_desk
           property: connectionString
       - key: RAILS_MASTER_KEY 
         sync: false
