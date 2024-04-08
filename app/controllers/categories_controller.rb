@@ -57,14 +57,25 @@ class CategoriesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_category
-      @category = Category.find(params[:id])
-    end
+  # app/controllers/categories_controller.rb
+  def services
+    category = Category.find(params[:category_id])
+    services = category.services.select(:id, :name) # Assuming each category has_many :services
 
-    # Only allow a list of trusted parameters through.
-    def category_params
-      params.require(:category).permit(:name, :desk_id)
+    respond_to do |format|
+      format.json { render json: services }
     end
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_category
+    @category = Category.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def category_params
+    params.require(:category).permit(:name, :desk_id)
+  end
 end

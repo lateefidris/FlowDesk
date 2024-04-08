@@ -12,13 +12,17 @@
   <% end %>
 
   <div>
-    <%= form.label :desk_id, style: "display: block" %>
-    <%= form.text_field :desk_id %>
+    <%= form.hidden_field :desk_id, value: current_user.desks.id %>
   </div>
 
   <div>
-    <%= form.label :service_id, style: "display: block" %>
-    <%= form.text_field :service_id %>
+    <%= form.label :category_id, "Category", style: "display: block" %>
+    <%= form.collection_select :category_id, current_user.desks.categories, :id, :name, { prompt: "Select a Category" }, { id: "category_select" } %>
+  </div>
+
+  <div>
+    <%= form.label :service_id, "Service", style: "display: block" %>
+    <%= form.collection_select :service_id, [], :id, :name, { prompt: "Select a Service" }, { id: "service_select" } %>
   </div>
 
   <div>
@@ -40,3 +44,25 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const categorySelect = document.getElementById("category_select");
+    const serviceSelect = document.getElementById("service_select");
+
+    categorySelect.addEventListener("change", function() {
+      const categoryId = this.value;
+      fetch(`/categories/${categoryId}/services.json`)
+        .then(response => response.json())
+        .then(services => {
+          serviceSelect.innerHTML = '<option value="">Select a Service</option>'; // Reset options
+          services.forEach(function(service) {
+            const option = new Option(service.name, service.id);
+            serviceSelect.add(option);
+          });
+        })
+        .catch(error => console.log(error));
+    });
+  });
+</script>
+

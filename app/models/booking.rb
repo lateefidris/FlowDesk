@@ -26,4 +26,17 @@ class Booking < ApplicationRecord
   belongs_to :desk, required: true, class_name: "Desk", foreign_key: "desk_id"
   belongs_to :service, required: true, class_name: "Service", foreign_key: "service_id"
   enum status: { pending: "pending", confirmed: "confirmed", completed: "completed" }
+
+  # Method to format the booking time range
+  def formatted_time_range
+    # Ensure 'appointment' is a Time object and calculate the end time
+    start_time = appointment.to_time
+    end_time = start_time + service.time_in_minutes.minutes
+
+    # Format the start and end times
+    formatted_start_time = start_time.strftime("%-l:%M%P") # e.g., "11:55am"
+    formatted_end_time = end_time.strftime("%-l:%M%P")     # correctly calculates e.g., "3:55pm"
+
+    "#{formatted_start_time}-#{formatted_end_time}"
+  end
 end

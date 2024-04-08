@@ -1,12 +1,16 @@
 <div id="<%= dom_id booking %>">
-  <p>
+  <!--<p>
     <strong>Desk:</strong>
     <%= booking.desk_id %>
+  </p>-->
+  <p>
+
+    <%= booking.appointment.strftime("%b%d").upcase %>
   </p>
 
   <p>
     <strong>Service:</strong>
-    <%= booking.service_id %>
+    <%= booking.service.name %>
   </p>
 
   <p>
@@ -21,7 +25,7 @@
 
   <p>
     <strong>Appointment:</strong>
-    <%= booking.appointment %>
+    <%= booking.formatted_time_range %>
   </p>
 
 </div>
