@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_01_202903) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_08_165224) do
   create_table "availabilities", force: :cascade do |t|
     t.integer "desk_id", null: false
     t.string "day_of_the_week"
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_01_202903) do
     t.datetime "appointment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "pending"
     t.index ["desk_id"], name: "index_bookings_on_desk_id"
     t.index ["service_id"], name: "index_bookings_on_service_id"
   end
