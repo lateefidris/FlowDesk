@@ -16,7 +16,8 @@
           <%= service.name %> |
           <%= link_to 'View Service ', service_path(service) %> |
           <%= link_to 'Edit Service ', edit_service_path(service) %>|
-          <%= link_to 'Delete Service', service_path(service), data: { turbo_method: :delete } %>
+          <%= link_to 'Delete Service', service_path(service), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+
         </div>
       <% end %>
     </ul>
