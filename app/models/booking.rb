@@ -39,4 +39,8 @@ class Booking < ApplicationRecord
 
     "#{formatted_start_time}-#{formatted_end_time}"
   end
+
+  def date_format
+    self.appointment.strftime("%b%d").upcase 
+  end
 end
