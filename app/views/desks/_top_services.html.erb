@@ -1,0 +1,19 @@
+<%# Initialize a hash to count occurrences of each service_id %>
+<% service_counts = current_user.desks.bookings.each_with_object(Hash.new(0)) do |booking, counts| %>
+  <% counts[booking.service_id] += 1 %>
+<% end %>
+
+<%# Sort service_ids by their frequency and limit to the top 5 %>
+<% sorted_service_ids = service_counts.sort_by { |_, count| -count }.map(&:first).first(5) %>
+
+<%# Collect and display each Service object in order %>
+<% sorted_service_ids.each do |service_id| %>
+  <% service = Service.find(service_id) %>
+  <div>
+    <h3><%= service.name %></h3>
+    <p>Bookings: <%= service_counts[service_id] %></p>
+  </div>
+<% end %>
+
+<h2><%= current_user.desks.bookings.count %></h2>
+<p>Total bookings</p>

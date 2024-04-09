@@ -1,5 +1,5 @@
 # ToDo List
-- finish formatting dashboard
+- finish formatting dashboard//
 - create link for client
 - format client pages
 - seperate landing and features page
