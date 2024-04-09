@@ -3,7 +3,7 @@
 - create link for client
 - format client pages
 - seperate landing and features page
-- format show bookings page
+- format show bookings page//
 - add inputs to edit profile
 
 
