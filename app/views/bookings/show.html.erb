@@ -1,15 +1,16 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @booking %>
+<%= render partial: 'bookings/booking_details', locals: { booking: @booking } %>
+
 
 <div>
   <% if @booking.pending? %>
-    <%= button_to "Confirm this booking", confirm_booking_path(@booking), method: :patch, data: { confirm: "Are you sure you want to confirm this booking?" } %>
+    <%= button_to "Confirm this booking", confirm_booking_path(@booking), method: :patch, data: { turbo_confirm: "Are you sure you want to confirm this booking?" } %>
   <% end %>
   <% if @booking.confirmed? %>
-    <%= button_to "Complete this booking", complete_booking_path(@booking), method: :patch, data: { confirm: "Are you sure you want to complete this booking?" } %>
+    <%= button_to "Complete this booking", complete_booking_path(@booking), method: :patch, data: { turbo_confirm: "Are you sure you want to complete this booking?" } %>
   <% end %>
-  <%= button_to "Destroy this booking", @booking, method: :delete, data: { confirm: "Are you sure?" } %>
+  <%= button_to "Delete this booking", @booking, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
   <%= link_to "Edit this booking", edit_booking_path(@booking) %> |
   <%= link_to "Back to bookings", bookings_path %>
 </div>
