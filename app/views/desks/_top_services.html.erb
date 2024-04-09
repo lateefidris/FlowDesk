@@ -6,14 +6,17 @@
 <%# Sort service_ids by their frequency and limit to the top 5 %>
 <% sorted_service_ids = service_counts.sort_by { |_, count| -count }.map(&:first).first(5) %>
 
+<% counter = 1 %>
 <%# Collect and display each Service object in order %>
 <% sorted_service_ids.each do |service_id| %>
   <% service = Service.find(service_id) %>
+
   <div>
-    <h3><%= service.name %></h3>
+    <h3><%= counter %> <%= service.name %></h3>
     <p>Bookings: <%= service_counts[service_id] %></p>
   </div>
+  <% counter += 1%>
 <% end %>
 
-<h2><%= current_user.desks.bookings.count %></h2>
-<p>Total bookings</p>
+<h1><%= current_user.desks.bookings.count %></h1>
+<h2>Total bookings</h2>

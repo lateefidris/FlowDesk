@@ -28,3 +28,5 @@
 - payments
 - email marketing
 - customer loyalty rewards
+- achievements
+- goals
