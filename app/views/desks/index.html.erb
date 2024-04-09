@@ -4,12 +4,19 @@
   <% if current_user.desks.present? %>
     <div>
       <%= render current_user.desks %>
+      
+      <hr>
+      <%=  %>
+
       <p>
         <%= link_to "Edit desk", edit_desk_path(current_user.desks) %>
       </p>
-
+      
       <hr>
+
     </div>
+  
+  
   <% else %>
     <%= link_to "New Desk", new_desk_path %>
   <% end %>
