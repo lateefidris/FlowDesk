@@ -22,6 +22,7 @@
 class Desk < ApplicationRecord
   belongs_to :professional, required: true, class_name: "User", foreign_key: "professional_id"
   validates :professional_id, uniqueness: true
+  validates :name, uniqueness: { case_sensitive: false }, presence: true
   has_many  :categories, class_name: "Category", foreign_key: "desk_id", dependent: :destroy
   has_many  :bookings, class_name: "Booking", foreign_key: "desk_id", dependent: :destroy
   has_one  :availability, class_name: "Availability", foreign_key: "desk_id", dependent: :destroy

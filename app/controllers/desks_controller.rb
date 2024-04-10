@@ -10,6 +10,12 @@ class DesksController < ApplicationController
   def show
   end
 
+  def store
+    @desk = Desk.where('lower(name) = ?', params[:desk_name].downcase).first
+    raise ActiveRecord::RecordNotFound unless @desk
+  end
+  
+
   # GET /desks/new
   def new
     @desk = Desk.new

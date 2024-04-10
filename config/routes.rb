@@ -1,24 +1,24 @@
 Rails.application.routes.draw do
   root "home#show"
-  resources :availabilities
-  resources :bookings
-  resources :services
-  resources :categories
-  resources :desks
   devise_for :users
 
-  # config/routes.rb
-  get "categories/:category_id/services", to: "categories#services", as: "category_services"
-
+  resources :availabilities
+  resources :services
+  resources :categories do
+    member do
+      get "services", to: "categories#services", as: "category_services"
+    end
+  end
+  
   resources :bookings do
     member do
-      patch 'confirm'
-      patch 'complete'
+      patch "confirm"
+      patch "complete"
     end
   end
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :desks, except: :show
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # Place this wildcard route at the very end to prevent it from hijacking other routes
+  get "/:desk_name", to: "desks#store", as: :desk_profile
 end
