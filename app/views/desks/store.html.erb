@@ -1,1 +1,18 @@
-<%= @desk.name %>
+ <%= image_tag @desk.profile_picture, alt: "profile picture", style: "height: 80px;" %>
+<h1>
+  <%= @desk.name %>
+</h1>
+
+<p><%= @desk.bio %></p>
+
+<p><%= @desk.location %></p>
+<% @desk.categories.each do | category | %>
+  <h2>
+    <%= category.name %>
+  </h2>
+  <% category.services.each do | service | %>
+    <li>
+      <%= link_to service.name, root_path %>
+    </li>
+  <% end %>
+<% end %>
