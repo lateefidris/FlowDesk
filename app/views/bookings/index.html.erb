@@ -1,9 +1,11 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Bookings</h1>
+<%= link_to "New booking", new_booking_path %>
 
-<div id="bookings">
-  <% @bookings.each do |booking| %>
+<h2>Pending</h2>
+<div id="pending-bookings">
+  <% @bookings.pending.each do |booking| %>
     <%= render booking %>
     <p>
       <%= link_to "Show this booking", booking %>
@@ -11,4 +13,22 @@
   <% end %>
 </div>
 
-<%= link_to "New booking", new_booking_path %>
+<h2>Confirmed</h2>
+<div id="confirmed-bookings">
+  <% @bookings.confirmed.each do |booking| %>
+    <%= render booking %>
+    <p>
+      <%= link_to "Show this booking", booking %>
+    </p>
+  <% end %>
+</div>
+
+<h2>Completed</h2>
+<div id="completed-bookings">
+  <% @bookings.completed.each do |booking| %>
+    <%= render booking %>
+    <p>
+      <%= link_to "Show this booking", booking %>
+    </p>
+  <% end %>
+</div>

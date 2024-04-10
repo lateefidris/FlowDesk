@@ -1,0 +1,11 @@
+<% current_user.desks.bookings.confirmed
+                 .sort_by { |booking| booking.appointment }
+                 .first(3)
+                 .each do |booking| %>
+  <div>
+    <p><%= booking.date_format %></p>
+    <p><%= booking.service.name %></p>
+    <p><%= booking.formatted_time_range %></p>
+    <%= link_to 'Show booking', booking_path(booking) %>
+  </div>
+  <% end %>

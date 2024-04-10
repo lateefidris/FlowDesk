@@ -1,0 +1,39 @@
+
+<div id="<%= dom_id booking %>">
+  <!--<p>
+    <strong>Desk:</strong>
+    <%= booking.desk_id %>
+  </p>-->
+  <p>
+    <strong>Date:</strong>
+    <%= booking.appointment.strftime('%A, %B %d, %Y') %>
+  </p>
+
+   <p>
+    <strong>Client:</strong>
+    <%= booking.client_name %>
+  </p>
+
+  <p>
+    <strong>Service:</strong>
+    <%= booking.service.name %>
+  </p>
+
+    <p>
+    <strong>Pay:</strong>
+    $<%= booking.service.price %>
+  </p>
+
+
+  <p>
+    <strong>Appointment:</strong>
+    <%= booking.formatted_time_range %>
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+    <%= booking.status %>
+  </p>
+
+
+</div>

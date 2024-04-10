@@ -7,9 +7,26 @@
       <p>
         <%= link_to "Edit desk", edit_desk_path(current_user.desks) %>
       </p>
-
       <hr>
     </div>
+
+    <div>
+      <h2>Upcoming Bookings</h2>
+      <div>
+        <%= render partial: "desks/upcoming_bookings" %>
+        <hr>
+      </div>
+      <div>
+     <%= link_to "YOU HAVE #{current_user.desks.bookings.pending.count} PENDING BOOKINGS", bookings_path %>
+      </div>
+      <hr>
+    </div>
+
+    <div>
+      <h2>Top Services</h2>
+       <%= render partial: "desks/top_services" %>
+    </div>
+
   <% else %>
     <%= link_to "New Desk", new_desk_path %>
   <% end %>

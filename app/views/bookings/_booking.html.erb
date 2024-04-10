@@ -1,27 +1,21 @@
 <div id="<%= dom_id booking %>">
-  <p>
+  <!--<p>
     <strong>Desk:</strong>
     <%= booking.desk_id %>
+  </p>-->
+  <p>
+
+    <%= booking.date_format %>
   </p>
 
   <p>
     <strong>Service:</strong>
-    <%= booking.service_id %>
-  </p>
-
-  <p>
-    <strong>Client name:</strong>
-    <%= booking.client_name %>
-  </p>
-
-  <p>
-    <strong>Client email:</strong>
-    <%= booking.client_email %>
+    <%= booking.service.name %>
   </p>
 
   <p>
     <strong>Appointment:</strong>
-    <%= booking.appointment %>
+    <%= booking.formatted_time_range %>
   </p>
 
 </div>

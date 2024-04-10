@@ -8,6 +8,7 @@ class BookingsController < ApplicationController
 
   # GET /bookings/1 or /bookings/1.json
   def show
+    @bookings = Booking.all
   end
 
   # GET /bookings/new
@@ -56,6 +57,25 @@ class BookingsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def confirm
+    booking = Booking.find(params[:id])
+    if booking.update(status: :confirmed)
+      redirect_to booking, notice: 'Booking was successfully confirmed.'
+    else
+      redirect_to booking, alert: 'There was an issue confirming the booking.'
+    end
+  end
+
+  def complete
+    @booking = Booking.find(params[:id])
+    if @booking.update(status: :completed)
+      redirect_to @booking, notice: 'Booking was successfully marked as completed.'
+    else
+      redirect_to @booking, alert: 'There was an issue completing the booking.'
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
