@@ -20,6 +20,14 @@
 #  category_id  (category_id => categories.id)
 #
 class Service < ApplicationRecord
+  def time_in_hours
+    if time_in_minutes.present? && time_in_minutes > 60
+      "#{time_in_minutes / 60} hours"
+    else
+      "#{time_in_minutes} minutes"
+    end
+  end
+
   belongs_to :category, required: true, class_name: "Category", foreign_key: "category_id"
   has_many  :bookings, class_name: "Booking", foreign_key: "service_id", dependent: :destroy
   has_one :desk, through: :category
