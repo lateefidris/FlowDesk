@@ -43,6 +43,6 @@
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "Request Booking", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
   </div>
 <% end %>
