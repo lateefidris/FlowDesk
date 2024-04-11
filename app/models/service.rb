@@ -21,7 +21,9 @@
 #
 class Service < ApplicationRecord
   def time_in_hours
-    if time_in_minutes.present? && time_in_minutes > 60
+    if time_in_minutes.present? && time_in_minutes == 60
+      "#{time_in_minutes / 60} hour"
+    elsif time_in_minutes.present? && time_in_minutes > 59
       "#{time_in_minutes / 60} hours"
     else
       "#{time_in_minutes} minutes"
