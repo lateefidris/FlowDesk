@@ -20,3 +20,14 @@
 
 <h1><%= current_user.desks.bookings.count %></h1>
 <h2>Total bookings</h2>
+
+<h1>
+  <% total_revenue = 0 %>
+  <% current_user.desks.bookings.completed.each do |booking| %>
+    <% if booking.service %>
+      <% total_revenue += booking.service.price %>
+    <% end %>
+  <% end %>
+  <%= number_to_currency(total_revenue) %>
+</h1>
+<h2>Total Revenue</h2>
