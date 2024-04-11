@@ -6,13 +6,13 @@
 <p><%= @desk.bio %></p>
 
 <p><%= @desk.location %></p>
-<% @desk.categories.each do | category | %>
+<% @desk.categories.each do |category| %>
   <h2>
     <%= category.name %>
   </h2>
-  <% category.services.each do | service | %>
+  <% category.services.each do |service| %>
     <li>
-      <%= link_to service.name, root_path %>
+       <%= link_to service.name, desk_service_path(desk_name: @desk.name, service_name: service.name) %>
     </li>
   <% end %>
 <% end %>

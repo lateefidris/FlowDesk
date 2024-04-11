@@ -15,6 +15,17 @@ class DesksController < ApplicationController
     raise ActiveRecord::RecordNotFound unless @desk
   end
   
+  def service
+    @desk = Desk.find_by(name: params[:desk_name])
+    @service = Service.find_by(name: params[:service_name])
+    
+    if @desk.nil? || @service.nil?
+      render "not_found", status: :not_found
+    else
+      # Additional logic for the service can be implemented here
+      # For example, you might want to check if the service is offered by the desk
+    end
+  end
 
   # GET /desks/new
   def new
