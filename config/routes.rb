@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/client_bookings/:id', to: 'bookings#client_show', as: 'client_booking'
+
+
   resources :desks, except: :show
 
   

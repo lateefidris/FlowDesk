@@ -22,6 +22,7 @@ class DesksController < ApplicationController
     if @desk.nil? || @service.nil?
       render "not_found", status: :not_found
     else
+      @booking = Booking.new(desk_id: @desk.id, service_id: @service.id)
       # Additional logic for the service can be implemented here
       # For example, you might want to check if the service is offered by the desk
     end
@@ -91,5 +92,9 @@ class DesksController < ApplicationController
     # Only allow a list of trusted parameters through.
     def desk_params
       params.require(:desk).permit(:name, :bio, :location, :profile_picture, :professional_id)
+    end
+
+    def booking_params
+      params.require(:booking).permit(:desk_id, :service_id, :category_id)  # Define permitted attributes for booking
     end
 end

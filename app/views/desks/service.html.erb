@@ -1,1 +1,3 @@
-<%= @service.name %>
+<%= render 'desks/client_form', booking: @booking %>
+<%= button_to 'Back to Desk', desk_profile_path(@service.desk.name), method: :get, class: 'btn btn-primary' %>
+
