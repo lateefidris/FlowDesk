@@ -23,9 +23,9 @@ Rails.application.routes.draw do
   resources :desks, except: :show
 
   
-  get "/:desk_name", to: "desks#store", as: :desk_profile
+  get "$/:desk_name", to: "desks#store", as: :desk_profile
   #, constraints: { desk_name: /[a-zA-Z0-9_-]+/ }
-  get "/:desk_name/:service_name", to: "desks#service", as: :desk_service
+  get "$/:desk_name/:service_name", to: "desks#service", as: :desk_service
 
   #, constraints: { desk_name: /[a-zA-Z0-9_-]+/, service_name: /[a-zA-Z0-9_-]+/ }
 
