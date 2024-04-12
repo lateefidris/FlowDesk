@@ -4,6 +4,10 @@
   <h1><%= current_user.desks.name %></h1>
 
   <p>
+    <%= link_to desk_profile_url(desk.name), desk_profile_path(desk.name) %>
+  </p>
+
+  <p>
     <%= desk.location %>
   </p>
 

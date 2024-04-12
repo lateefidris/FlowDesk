@@ -30,3 +30,18 @@
 - customer loyalty rewards
 - achievements
 - goals
+
+
+
+<h1>
+  <% total_revenue = 0 %>
+    <% current_user.desks.bookings.each do |booking| %>
+      <% booking.service.each do |service| %>
+        <% if service.completed? %>
+          <% total_revenue += service.price %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <%= number_to_currency(total_revenue) %> 
+</h1>
+

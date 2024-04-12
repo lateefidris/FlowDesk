@@ -17,8 +17,17 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/client_bookings/:id', to: 'bookings#client_show', as: 'client_booking'
+
+
   resources :desks, except: :show
 
-  # Place this wildcard route at the very end to prevent it from hijacking other routes
+  
   get "/:desk_name", to: "desks#store", as: :desk_profile
+  #, constraints: { desk_name: /[a-zA-Z0-9_-]+/ }
+  get "/:desk_name/:service_name", to: "desks#service", as: :desk_service
+
+  #, constraints: { desk_name: /[a-zA-Z0-9_-]+/, service_name: /[a-zA-Z0-9_-]+/ }
+
+  # This ensures these routes do not interfere with other paths that could be added later
 end

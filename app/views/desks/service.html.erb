@@ -1,0 +1,8 @@
+ <%= image_tag @service.desk.profile_picture, alt: "profile picture", style: "height: 80px;" %>
+<h1><%= @service.name %></h1>
+<p><%= @service.description %></p>
+<h2>$<%= @service.price %></h2>
+<h3><%= @service.time_in_hours %></h3>
+
+<%= render 'desks/client_form', booking: @booking %>
+<%= button_to 'Back to Desk', desk_profile_path(@service.desk.name), method: :get, class: 'btn btn-primary' %>
