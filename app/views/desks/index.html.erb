@@ -3,20 +3,20 @@
 <div id="desks">
 
   <% if current_user.desks.present? %>
-    <div>
-      <%= render current_user.desks %>
-    </div>
+    <div class="max-w-3xl">
+      <div>
+        <%= render current_user.desks %>
+      </div>
 
-    <div>
-      <h2>Upcoming Bookings</h2>
       <div>
-        <%= render partial: "desks/upcoming_bookings" %>
-        <hr>
+        <h2 class="bg-orange-500 text-center text-4xl uppercase">Upcoming Bookings</h2>
+        <div>
+          <%= render partial: "desks/upcoming_bookings" %>
+        </div>
+        <div class="bg-orange-500 text-center text-3xl">
+          <%= link_to "YOU HAVE #{current_user.desks.bookings.pending.count} PENDING BOOKINGS", bookings_path %>
+        </div>
       </div>
-      <div>
-        <%= link_to "YOU HAVE #{current_user.desks.bookings.pending.count} PENDING BOOKINGS", bookings_path %>
-      </div>
-      <hr>
     </div>
 
     <div>
