@@ -5,7 +5,7 @@
 
   <h1 class="flex justify-center text-5xl"><%= @desk.name %></h1>
 
-  <p class="flex justify-center text-secondary">
+  <p class="flex justify-center text-orange-600">
     <%= link_to desk_profile_url(@desk.name), desk_profile_path(@desk.name) %>
   </p>
 
@@ -30,7 +30,7 @@
     <div class="collapse-content transition-all overflow-hidden max-h-0 peer-checked:max-h-96">
       <ul>
         <% category.services.each_with_index do |service, s_index| %>
-          <li class="service-item bg-orange-700 m-4 p-4 uppercase text-center text-white text-xl font-thin" style="transition-delay: <%= s_index * 0.3 %>s;">
+          <li class="service-item bg-orange-700 m-4 p-4 uppercase text-center text-white text-xl font-thin tracking-widest" style="transition-delay: <%= s_index * 0.3 %>s;">
             <%= link_to service.name, desk_service_path(desk_name: @desk.name, service_name: service.name) %>
           </li>
         <% end %>
