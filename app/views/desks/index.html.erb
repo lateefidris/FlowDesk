@@ -1,13 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
 <div id="desks">
+
   <% if current_user.desks.present? %>
     <div>
       <%= render current_user.desks %>
-      <p>
-        <%= link_to "Edit desk", edit_desk_path(current_user.desks) %>
-      </p>
-      <hr>
     </div>
 
     <div>
@@ -17,14 +14,14 @@
         <hr>
       </div>
       <div>
-     <%= link_to "YOU HAVE #{current_user.desks.bookings.pending.count} PENDING BOOKINGS", bookings_path %>
+        <%= link_to "YOU HAVE #{current_user.desks.bookings.pending.count} PENDING BOOKINGS", bookings_path %>
       </div>
       <hr>
     </div>
 
     <div>
       <h2>Top Services</h2>
-       <%= render partial: "desks/top_services" %>
+      <%= render partial: "desks/top_services" %>
     </div>
 
   <% else %>
