@@ -9,11 +9,11 @@
       </div>
 
       <div>
-        <h2 class="bg- bg-black text-center text-4xl uppercase text-white mt-3 py-3 font-bold">Upcoming Bookings</h2>
+        <h2 class="bg- bg-black text-center text-4xl uppercase text-orange-100 mt-3 py-3 font-bold">Upcoming Bookings</h2>
         <div>
           <%= render partial: "desks/upcoming_bookings" %>
         </div>
-        <div class=" text-center text-3xl py-2 text-orange-500 border-4 border-black">
+        <div class=" text-center text-3xl py-2 text-orange-500 border-2 border-black bg-orange-100">
           YOU HAVE 
           <%= link_to current_user.desks.bookings.pending.count, bookings_path, class: "font-black text-black hover:text-orange-500" %>
           PENDING BOOKINGS
@@ -22,8 +22,8 @@
       </div>
     </div>
 
-    <div class=" flex-grow max-w-3xl border mt-3 rounded bg-black">
-      <h2 class=" text-center text-4xl uppercase mt-5 font-bold text-white py-3">Top Services</h2>
+    <div class=" flex-grow max-w-3xl mt-3 rounded bg-orange-100 border-2 border-black %">
+      <h2 class=" text-center text-4xl uppercase mt-5 font-black text-black py-3">Top Services</h2>
       <%= render partial: "desks/top_services" %>
     </div>
 

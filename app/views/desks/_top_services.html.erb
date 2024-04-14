@@ -11,17 +11,17 @@
 <% sorted_service_ids.each_with_index do |service_id, index| %>
   <% service = Service.find(service_id) %>
 
-  <div class="flex items-center bg-orange-600 text-white p-4 m-3 border-2">
+  <div class="flex items-center bg-orange-600 text-orange-100 p-4 m-3 ">
     <span class="text-4xl font-bold pr-4 border-r">
       <%= index + 1 %>
     </span>
     <div class="flex flex-row flex-grow pl-4 justify-between">
-      <h3 class="font-light flex items-center uppercase text-l hover:font-bold">
+      <h3 class="flex items-center uppercase text-l font-bold">
         <%= service.name %>
       </h3>
       <div id="block" class="flex">
-        <div class="text-lg bg-white text-black rounded-sm px-3 py-1">
-          <span class="font-bold text-orange-500">
+        <div class="text-lg bg-orange-100 text-orange-500 rounded-sm px-3 py-1">
+          <span class="font-bold text-black">
             <%= service_counts[service_id] %>
           </span>
           BOOKINGS
@@ -33,10 +33,10 @@
 <% end %>
 
 
-<h1 class="text-5xl text-center font-black text-blue-500"><%= current_user.desks.bookings.count %></h1>
-<h2 class="text-center uppercase font-bold text-white">Total bookings</h2>
+<h1 class="text-5xl text-center font-black text-orange-600"><%= current_user.desks.bookings.count %></h1>
+<h2 class="text-center uppercase font-bold text-black">Total bookings</h2>
 
-<h1 class="text-4xl text-center font-black text-green-500">
+<h1 class="text-4xl text-center font-black text-lime-600">
   <% total_revenue = 0 %>
   <% current_user.desks.bookings.completed.each do |booking| %>
     <% if booking.service %>
@@ -45,4 +45,4 @@
   <% end %>
   <%= number_to_currency(total_revenue) %>
 </h1>
-<h2 class="text-center uppercase font-bold text-white pb-5">Total Revenue</h2>
+<h2 class="text-center uppercase font-bold text-black pb-5">Total Revenue</h2>
