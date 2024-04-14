@@ -8,7 +8,7 @@
     <h1 class="flex justify-center text-5xl"><%= @desk.name %></h1>
 
     <p class="flex justify-center text-orange-600">
-      <%= link_to desk_profile_url(@desk.name), desk_profile_path(@desk.name) %>
+      <%= link_to "https://www.Flowdesk.pro/$/#{@desk.name}", desk_profile_path(@desk.name) %>
     </p>
 
     <p class="flex justify-center font-bold">
