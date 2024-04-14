@@ -2,12 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
-  }
+.collapse-content {
+  transition: max-height 0.5s ease-in-out;
+  max-height: 0;
+  overflow: hidden;
 }
 
-*/
+.hidden-checkbox:checked + .collapse-title + .collapse-content {
+  max-height: 1000px; /* Adjust based on content */
+}
+
+.service-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.hidden-checkbox:checked + .collapse-title + .collapse-content .service-item {
+  opacity: 1;
+  transform: translateY(0px);
+}
