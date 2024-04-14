@@ -3,11 +3,15 @@
                  .sort_by { |booking| booking.appointment }
                  .first(3)
                  .each do |booking| %>
-    <div class="border p-4 flex-none">
-      <p class="text-sm font-bold"><%= booking.date_format %></p>
-      <p class="text-sm"><%= booking.service.name %></p>
-      <p class="text-sm"><%= booking.formatted_time_range %></p>
-      <%= link_to 'Show booking', booking_path(booking), class: "text-red-500 hover:text-blue-600" %>
+    <div id="booking" class="px-2 py-3 flex-item bg-gradient-to-tr from-primary to-secondary my-3 rounded-md">
+      <p class="text-5xl text-center text-white">
+        <span class="font-bold text-black"><%= booking.date_format[0..2] %></span><%= booking.date_format[3..-1] %>
+      </p>
+      <p class="text-sm text-center text-white uppercase"><%= booking.service.name %></p>
+      <p class="text-sm font-black text-black text-center"><%= booking.formatted_time_range %></p>
+      <!--<div class="text-center uppercase text-sm">
+        <%= link_to 'Show booking', booking_path(booking), class: "text-red-500 hover:text-blue-600" %>
+      </div>-->
+
     </div>
   <% end %>
-</div>

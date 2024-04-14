@@ -9,11 +9,11 @@
 
     <h1 class="flex justify-center text-5xl"><%= current_user.desks.name %></h1>
 
-    <p class="flex justify-center">
+    <p class="flex justify-center text-secondary">
       <%= link_to desk_profile_url(desk.name), desk_profile_path(desk.name) %>
     </p>
 
-    <p class="flex justify-center">
+    <p class="flex justify-center font-bold">
       <%= desk.location %>
     </p>
 

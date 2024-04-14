@@ -34,13 +34,22 @@ class Booking < ApplicationRecord
     end_time = start_time + service.time_in_minutes.minutes
 
     # Format the start and end times
-    formatted_start_time = start_time.strftime("%-l:%M%P") # e.g., "11:55am"
-    formatted_end_time = end_time.strftime("%-l:%M%P")     # correctly calculates e.g., "3:55pm"
+    formatted_start_time = if start_time.strftime("%M") == "00"
+      start_time.strftime("%-l%p")
+    else
+      start_time.strftime("%-l:%M%p")
+    end.upcase
 
-    "#{formatted_start_time}-#{formatted_end_time}"
-  end
+    formatted_end_time = if end_time.strftime("%M") == "00"
+        end_time.strftime("%-l%p")
+      else
+        end_time.strftime("%-l:%M%p")
+      end.upcase
 
-  def date_format
-    self.appointment.strftime("%b%d").upcase 
-  end
+        "#{formatted_start_time}-#{formatted_end_time}"
+      end
+
+    def date_format
+      self.appointment.strftime("%b%d").upcase 
+    end
 end
