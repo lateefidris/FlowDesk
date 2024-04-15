@@ -54,10 +54,10 @@
   <h2 class="uppercase font-bold text-black hidden">Total Revenue</h2>
 
   <div id="revenueDetails" class="hidden pb-6">
-    <h2 class="text-center uppercase font-bold text-black">Total earnings</h2>
+    <h2 class="text-center  font-bold text-black text-xl uppercase">Total Earnings</h2>
     <% current_user.desks.bookings.completed.each do |booking| %>
       <% if booking.service %>
-        <p class="text-sm text-gray-700"><%= booking.service.name %>: <%= number_to_currency(booking.service.price) %></p>
+        <p class="text-sm text-gray-700 font-bold"><%= booking.service.name %>: <%= number_to_currency(booking.service.price) %></p>
       <% end %>
     <% end %>
   </div>
