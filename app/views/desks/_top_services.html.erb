@@ -1,5 +1,5 @@
 <%# Initialize a hash to count occurrences of each service_id %>
-<% service_counts = current_user.desks.bookings.each_with_object(Hash.new(0)) do |booking, counts| %>
+<% service_counts = current_user.desks.bookings.completed.each_with_object(Hash.new(0)) do |booking, counts| %>
   <% counts[booking.service_id] += 1 %>
 <% end %>
 
@@ -32,17 +32,68 @@
 
 <% end %>
 
+<h1 class="text-5xl text-center font-black text-orange-600"><%= current_user.desks.bookings.completed.count %></h1>
+<h2 class="text-center uppercase font-bold text-black">bookings completed</h2>
 
-<h1 class="text-5xl text-center font-black text-orange-600"><%= current_user.desks.bookings.count %></h1>
-<h2 class="text-center uppercase font-bold text-black">Total bookings</h2>
-
-<h1 class="text-4xl text-center font-black text-lime-600">
-  <% total_revenue = 0 %>
-  <% current_user.desks.bookings.completed.each do |booking| %>
-    <% if booking.service %>
-      <% total_revenue += booking.service.price %>
-    <% end %>
+<% total_revenue = 0 %>
+<% current_user.desks.bookings.completed.each do |booking| %>
+  <% if booking.service %>
+    <% total_revenue += booking.service.price %>
   <% end %>
-  <%= number_to_currency(total_revenue) %>
-</h1>
-<h2 class="text-center uppercase font-bold text-black pb-5">Total Revenue</h2>
+<% end %>
+<% number_to_currency(total_revenue) %>
+
+
+<div class="text-center py-3">
+ <img id="startButton" src="<%= asset_path('money.png') %>" class="cursor-pointer block mx-auto transition duration-300 hover:scale-105 hover:rotate-6" alt="Start Button" style="width: 100px; height: auto;">
+
+
+  <h1 id="revenueCounter" class="text-4xl font-black text-lime-600 cursor-pointer hidden">
+    $0
+  </h1>
+  <h2 class="uppercase font-bold text-black hidden">Total Revenue</h2>
+
+  <div id="revenueDetails" class="hidden pb-6">
+    <h2 class="text-center uppercase font-bold text-black">Total earnings</h2>
+    <% current_user.desks.bookings.completed.each do |booking| %>
+      <% if booking.service %>
+        <p class="text-sm text-gray-700"><%= booking.service.name %>: <%= number_to_currency(booking.service.price) %></p>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+   const counter = document.getElementById('revenueCounter');
+   const details = document.getElementById('revenueDetails');
+   const header = document.querySelector('h2');
+   const startButton = document.getElementById('startButton');
+   let isCounterStarted = false;
+
+   const updateCount = () => {
+     const target = +counter.getAttribute('data-target');
+     const count = +counter.innerText.replace(/\D/g, '');
+     const increment = target / 100;
+
+     if (count < target) {
+       counter.innerText = '$' + Math.ceil(count + increment).toLocaleString();
+       setTimeout(updateCount, 40);
+     } else {
+       counter.innerText = '$' + target.toLocaleString();
+     }
+   };
+
+   startButton.onclick = function() {
+     startButton.style.display = 'none'; // Hide the start button
+     counter.classList.remove('hidden');
+     header.classList.remove('hidden');
+     details.classList.remove('hidden');
+     if (!isCounterStarted) {
+       counter.setAttribute('data-target', <%= total_revenue %>);
+       updateCount();
+       isCounterStarted = true;
+     }
+   };
+  });
+</script>
