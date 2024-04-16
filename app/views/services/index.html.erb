@@ -1,25 +1,28 @@
 <!--<p style="color: green"><%= notice %></p>-->
-<h1>Services</h1>
-
-<%= link_to "New category", new_category_path %> |
-<%= link_to "New service", new_service_path %>
-
-<div id="services">
-  <% current_user.desks.categories.each do |category| %>
-    <ul>
-      <li><%= category.name %> |
-        <%= link_to 'Edit category', edit_category_path(category) %>
-      </li>
-<br>
-      <div>
-        <% category.services.each do |service| %>
-          <%= service.name %> |
-          <%= link_to 'View Service ', service_path(service) %> |
-          <%= link_to 'Edit Service ', edit_service_path(service) %>|
-          <%= link_to 'Delete Service', service_path(service), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-
-        </div>
-      <% end %>
-    </ul>
+<div class="flex flex-col items-center justify-center w-full mt-8">
+  <h1 class="text-5xl font-bold">Services</h1>
+  <p>
+    <%= link_to "New category", new_category_path, class: "text-black hover:text-orange-800" %> |
+    <%= link_to "New service", new_service_path, class: "text-black hover:text-orange-800" %>
+  </p>
+  <% current_user.desks.categories.each_with_index do |category, index| %>
+    <div class="collapse collapse-arrow bg-orange-600 rounded-none m-3 p-2 w-full max-w-4xl">
+      <input type="checkbox" id="accordion-<%= index %>" class="peer hidden-checkbox" />
+      <label for="accordion-<%= index %>" class="collapse-title text-3xl text-center text-white uppercase font-medium cursor-pointer block tracking-[.5em]">
+        <%= category.name %>
+      </label>
+      <div class="collapse-content transition-all overflow-hidden max-h-0 peer-checked:max-h-96">
+        <ul>
+          <% category.services.each_with_index do |service, s_index| %>
+            <li class="service-item bg-white m-4 p-4 uppercase text-center text-orange-700 text-l tracking-widest" style="transition-delay: <%= s_index * 0.3 %>s;">
+              <%= link_to service.name, service_path(service), class: "font-bold text-xl" %>
+              <br>
+              <%= link_to 'Edit', edit_service_path(service), class: "hover:text-black" %> |
+              <%= link_to 'Delete', service_path(service), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "hover:text-black" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
   <% end %>
 </div>
