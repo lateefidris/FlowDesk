@@ -7,6 +7,3 @@ application.debug = false
 window.Stimulus   = application
 
 export { application }
-import "flowbite/dist/flowbite.turbo.js";
-import 'flowbite-datepicker';
-import 'flowbite/dist/datepicker.turbo.js';

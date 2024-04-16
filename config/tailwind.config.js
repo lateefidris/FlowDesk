@@ -20,7 +20,6 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/container-queries'),
     require("daisyui"),
-    require('flowbite/plugin')
   ],
   daisyui: {
     themes: [
