@@ -1,11 +1,16 @@
-<% current_user.desks.bookings.confirmed
+<div class="flex flex-row justify-between space-x-4">
+  <% current_user.desks.bookings.confirmed
                  .sort_by { |booking| booking.appointment }
                  .first(3)
                  .each do |booking| %>
-  <div>
-    <p><%= booking.date_format %></p>
-    <p><%= booking.service.name %></p>
-    <p><%= booking.formatted_time_range %></p>
-    <%= link_to 'Show booking', booking_path(booking) %>
-  </div>
+    <%= link_to booking_path(booking), class: "no-underline" do %>
+      <div id="booking-<%= booking.id %>" class="px-2 py-3 flex-item bg-gradient-to-tr from-red-600 to-yellow-400 my-3 rounded-md border-2 border-white hover:border-orange-500">
+        <p class="text-5xl text-center text-white">
+          <span class="font-bold text-black"><%= booking.date_format[0..2] %></span><%= booking.date_format[3..-1] %>
+        </p>
+        <p class="text-sm text-center text-white uppercase"><%= booking.service.name %></p>
+        <p class="text-sm font-black text-black text-center"><%= booking.formatted_time_range %></p>
+      </div>
+    <% end %>
   <% end %>
+</div>

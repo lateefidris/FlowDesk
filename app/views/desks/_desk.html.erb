@@ -1,18 +1,25 @@
 <div id="<%= dom_id desk %>">
-  <%= image_tag desk.profile_picture, alt: "profile picture", style: "height: 80px;" %>
+  <div class="flex flex-col w-full mt-3 items-center relative">
+    <p class="absolute top-0 right-0 m-3">
+  <%= link_to image_tag('edit_icon.png', alt: 'Edit desk', width: "30", height: "auto"), edit_desk_path(current_user.desks) %>
+</p>
 
-  <h1><%= current_user.desks.name %></h1>
+    <div class="w-2/3">
+      <img src="<%= desk.profile_picture %>" alt="profile picture" >
+    </div>
 
-  <p>
-    <%= link_to desk_profile_url(desk.name), desk_profile_path(desk.name) %>
-  </p>
+    <h1 class="flex justify-center text-5xl"><%= current_user.desks.name %></h1>
 
-  <p>
-    <%= desk.location %>
-  </p>
+    <p class="flex justify-center text-orange-600">
+      <%= link_to "https://www.Flowdesk.pro/$/#{desk.name}", desk_profile_path(desk.name) %>
+    </p>
 
-  <p>
-    <%= desk.bio %>
-  </p>
+    <p class="flex justify-center font-bold">
+      <%= desk.location %>
+    </p>
 
+    <p class="flex justify-center text-center">
+      <%= desk.bio %>
+    </p>
+  </div>
 </div>

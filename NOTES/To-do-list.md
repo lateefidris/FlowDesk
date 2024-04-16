@@ -1,10 +1,11 @@
 # ToDo List
 - finish formatting dashboard//
-- create link for client
-- format client pages
+- create link for client//
+- format client pages//
 - seperate landing and features page
 - format show bookings page//
 - add inputs to edit profile
+
 
 
 
@@ -16,6 +17,7 @@
 
 - send email after booking
 - send email after sign up
+- if you have multiple bookings on the same day in the dashboard it will play each one for 4 seconds and fade to next
 
 ## Down the line
 - incorporate AI into professional side and client side
@@ -28,9 +30,10 @@
 - payments
 - email marketing
 - customer loyalty rewards
-- achievements
-- goals
-
+- achievements**
+- goals**
+- policies
+- service request
 
 
 <h1>
@@ -44,4 +47,3 @@
     <% end %>
   <%= number_to_currency(total_revenue) %> 
 </h1>
-
