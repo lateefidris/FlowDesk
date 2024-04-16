@@ -13,11 +13,12 @@
 
   <body>
     <%= render partial: "shared/navbar" %>
-    <% flash.each do |name, msg| %>
-      <%= content_tag(:div, msg, class: "flash #{name}") %>
-    <% end %>
+    <div  class="container mx-auto px-4">
+      <% flash.each do |name, msg| %>
+        <%= content_tag(:div, msg, class: "flash #{name}") %>
+      <% end %>
+      <%= yield %>
+    </div>
 
-    <%= yield %>
-  
   </body>
 </html>
