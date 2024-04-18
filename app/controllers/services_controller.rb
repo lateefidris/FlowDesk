@@ -38,13 +38,15 @@ class ServicesController < ApplicationController
   # PATCH/PUT /services/1 or /services/1.json
   def update
     respond_to do |format|
-      if @service.update(service_params.except(:images))
+      if @service.update(service_params.except(:images, :images_to_keep))
         attach_new_images(params[:service][:images]) if params[:service][:images]
-
-        if params[:service][:images_to_delete]
-          purge_images(params[:service][:images_to_delete])
-        end
-
+  
+        existing_image_ids = @service.images.pluck(:blob_id)
+        images_to_keep = (params[:service][:images_to_keep] || []).map(&:to_i)
+        images_to_delete = existing_image_ids - images_to_keep
+  
+        purge_images(images_to_delete)
+  
         format.html { redirect_to service_url(@service), notice: "Service was successfully updated." }
         format.json { render :show, status: :ok, location: @service }
       else
@@ -53,6 +55,9 @@ class ServicesController < ApplicationController
       end
     end
   end
+  
+  
+  
 
   # DELETE /services/1 or /services/1.json
   def destroy
@@ -78,8 +83,9 @@ class ServicesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def service_params
-      params.require(:service).permit(:name, :description, :price, :time_in_minutes, :category_id, images: [], images_to_delete: [])
+      params.require(:service).permit(:name, :description, :price, :time_in_minutes, :category_id, images: [])
     end
+    
 
     def attach_new_images(images)
       images.each do |image|
@@ -87,10 +93,13 @@ class ServicesController < ApplicationController
       end
     end
 
-    def purge_images(image_ids)
-      image_ids.each do |image_id|
-        image = @service.images.find_by(id: image_id)
-        image.purge if image
-      end
-    end
+
+def purge_images(blob_ids)
+  blob_ids.each do |blob_id|
+    image = ActiveStorage::Blob.find_by(id: blob_id).attachments.first
+    image.purge if image
+  end
+end
+    
+    
 end

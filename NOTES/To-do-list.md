@@ -4,7 +4,7 @@
 - format client pages//
 - seperate landing and features page
 - format show bookings page//
-- add inputs to edit profile
+- add inputs to edit profile//
 
 
 
@@ -32,7 +32,7 @@
 - customer loyalty rewards
 - achievements**
 - goals**
-- policies
+- store policies
 - service request
 
 - oauth
