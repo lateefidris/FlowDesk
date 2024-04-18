@@ -36,6 +36,21 @@
     <%= form.collection_select :category_id, @categories, :id, :name, include_blank: true %>
   </div>
 
+
+  <div class="field">
+    <%= form.label :images %>
+    <%= form.file_field :images, multiple: true, direct_upload: true %>
+  </div>
+
+  <h3>Current Images</h3>
+  <% service.images.each_with_index do |image, index| %>
+    <div>
+      <%= image_tag(image) %>
+      <%= check_box_tag "service[images_to_delete][]", image.signed_id %>
+      <%= label_tag "Delete Image #{index + 1}" %>
+    </div>
+  <% end %>
+
   <div>
     <%= form.submit %>
   </div>
