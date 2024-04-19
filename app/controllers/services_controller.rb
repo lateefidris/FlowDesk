@@ -40,13 +40,7 @@ class ServicesController < ApplicationController
     respond_to do |format|
       if @service.update(service_params.except(:images, :images_to_keep))
         attach_new_images(params[:service][:images]) if params[:service][:images]
-  
-        existing_image_ids = @service.images.pluck(:blob_id)
-        images_to_keep = (params[:service][:images_to_keep] || []).map(&:to_i)
-        images_to_delete = existing_image_ids - images_to_keep
-  
-        purge_images(images_to_delete)
-  
+                     
         format.html { redirect_to service_url(@service), notice: "Service was successfully updated." }
         format.json { render :show, status: :ok, location: @service }
       else
@@ -67,6 +61,12 @@ class ServicesController < ApplicationController
       format.html { redirect_to services_url, notice: "Service was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def delete_attachment
+    @service_image = ActiveStorage::Attachment.find(params[:id])
+    @service_image.purge
+    redirect_back(fallback_location: request.referer)
   end
 
   private
@@ -92,14 +92,6 @@ class ServicesController < ApplicationController
         @service.images.attach(image)
       end
     end
-
-
-def purge_images(blob_ids)
-  blob_ids.each do |blob_id|
-    image = ActiveStorage::Blob.find_by(id: blob_id).attachments.first
-    image.purge if image
-  end
-end
     
     
 end

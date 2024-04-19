@@ -5,6 +5,7 @@
 - seperate landing and features page
 - format show bookings page//
 - add inputs to edit profile//
+- edit categories
 
 
 
@@ -21,7 +22,7 @@
 
 ## Down the line
 - incorporate AI into professional side and client side
-- add images to services
+- add images to services//
 - themes
 - messages
 - notifications
