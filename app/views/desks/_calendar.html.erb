@@ -1,0 +1,157 @@
+<div class="container">
+  <div class="calendar">
+    <div class="header">
+      <div class="month"></div>
+      <div class="btns">
+        <div class="btn today-btn">
+          <i class="fas fa-calendar-day"></i>
+        </div>
+        <div class="btn prev-btn">
+          <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="btn next-btn">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    </div>
+    <div class="weekdays">
+      <div class="day">Sun</div>
+      <div class="day">Mon</div>
+      <div class="day">Tue</div>
+      <div class="day">Wed</div>
+      <div the="day">Thu</div>
+      <div class="day">Fri</div>
+      <div class="day">Sat</div>
+    </div>
+    <div class="days">
+      <!-- Days added via JavaScript -->
+    </div>
+  </div>
+  <div id="selectedDateTimeDisplay" class="selected-date-time">Selected Date and Time: None</div>
+</div>
+
+<dialog id="timeSlotsModal" class="modal">
+  <div class="modal-box text-center">
+    <h2>Available Time Slots</h2>
+    <div class="time-slots">
+      <!-- Time slots will be dynamically added here -->
+    </div>
+    <form method="dialog">
+      <input type="text" id="selectedDate" readonly>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</dialog>
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const daysContainer = document.querySelector(".days"),
+        nextBtn = document.querySelector(".next-btn"),
+        prevBtn = document.querySelector(".prev-btn"),
+        month = document.querySelector(".month"),
+        todayBtn = document.querySelector(".today-btn"),
+        timeSlotsModal = document.getElementById("timeSlotsModal"),
+        timeSlotsContainer = timeSlotsModal.querySelector(".time-slots"),
+        closeModalButton = timeSlotsModal.querySelector("button[type='submit']"),
+        selectedDateInput = document.getElementById("selectedDate"),
+        selectedDateTimeDisplay = document.getElementById("selectedDateTimeDisplay"),
+        appointmentInput = document.querySelector("input[name='booking[appointment]']"); // Select the Rails form datetime input
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const date = new Date();
+  let currentMonth = date.getMonth();
+  let currentYear = date.getFullYear();
+
+  function renderCalendar() {
+    date.setDate(1);
+    const firstDayIndex = date.getDay();
+    const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
+    const totalDays = 6 - new Date(currentYear, currentMonth + 1, 0).getDay();
+
+    month.textContent = `${months[currentMonth]} ${currentYear}`;
+    daysContainer.innerHTML = "";
+
+    for (let x = firstDayIndex; x > 0; x--) {
+      daysContainer.innerHTML += `<div class="day prev">${prevLastDay - x + 1}</div>`;
+    }
+
+    for (let i = 1; i <= lastDay; i++) {
+      let dayClass = "day";
+      if (i === new Date().getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear()) {
+        dayClass += " today";
+      }
+      daysContainer.innerHTML += `<div class="${dayClass}" data-date="${months[currentMonth]} ${i}, ${currentYear}">${i}</div>`;
+    }
+
+    for (let j = 1; j <= totalDays; j++) {
+      daysContainer.innerHTML += `<div class="day next">${j}</div>`;
+    }
+  }
+
+  daysContainer.addEventListener("click", function(event) {
+    if (event.target.classList.contains("day") && !event.target.classList.contains("prev") && !event.target.classList.contains("next")) {
+      const selectedFullDate = event.target.getAttribute("data-date");
+      selectedDateInput.value = selectedFullDate; // Set the selected date in the input field
+      populateTimeSlots(selectedFullDate);
+    }
+  });
+
+  function populateTimeSlots(selectedFullDate) {
+    const slots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
+    timeSlotsContainer.innerHTML = ""; // Clear previous slots
+    slots.forEach(slot => {
+      const slotDiv = document.createElement("div");
+      slotDiv.textContent = slot;
+      slotDiv.onclick = function() {
+        const fullDateTime = `${selectedFullDate} ${slot}`;
+        selectedDateTimeDisplay.textContent = "Selected Date and Time: " + fullDateTime; // Display selected date and time
+        appointmentInput.value = fullDateTime; // Set the full date and time in the Rails form datetime field
+        timeSlotsModal.close(); // Close the modal after selecting the time
+      };
+      timeSlotsContainer.appendChild(slotDiv);
+    });
+    timeSlotsModal.showModal(); // Open the modal
+  }
+
+  nextBtn.addEventListener("click", () => {
+    currentMonth = (currentMonth + 1) % 12;
+    currentYear = (currentMonth === 0) ? currentYear + 1 : currentYear;
+    renderCalendar();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    currentMonth = (currentMonth - 1 + 12) % 12;
+    currentYear = (currentMonth === 11) ? currentYear - 1 : currentYear;
+    renderCalendar();
+  });
+
+  todayBtn.addEventListener("click", () => {
+    currentMonth = date.getMonth();
+    currentYear = date.getFullYear();
+    renderCalendar();
+  });
+
+  renderCalendar();
+
+  // Close modal on outside click
+  window.addEventListener("click", function(event) {
+    if (event.target === timeSlotsModal) {
+      timeSlotsModal.close();
+    }
+  });
+
+  // Close modal on button click
+  closeModalButton.addEventListener("click", () => {
+    timeSlotsModal.close();
+  });
+});
+
+</script>
