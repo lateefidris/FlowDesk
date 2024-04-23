@@ -12,24 +12,39 @@
   <% end %>
 
   <div>
-    <%= form.label :desk_id, style: "display: block" %>
-    <%= form.text_field :desk_id %>
+
+    <%= form.hidden_field :desk_id, value: current_user.desks.id %>
   </div>
 
   <div>
     <%= form.label :day_of_the_week, style: "display: block" %>
-    <%= form.text_field :day_of_the_week %>
+    <%= form.collection_select :day_of_the_week, @days, :id, :name,
+        { include_blank: true }, 
+        { required: true } %>
+
   </div>
 
-  <div>
-    <%= form.label :start_time, style: "display: block" %>
-    <%= form.time_field :start_time %>
-  </div>
+<div>
+  <%= form.label :start_time, style: "display: block" %>
+  <%= form.select :start_time,
+   options_for_select(time_options(), selected: availability.start_time&.strftime("%-l:%M %p")),
+        { include_blank: true }, 
+        { required: true } %>
+</div>
 
-  <div>
-    <%= form.label :end_time, style: "display: block" %>
-    <%= form.time_field :end_time %>
-  </div>
+<div>
+  <%= form.label :end_time, style: "display: block" %>
+  <%= form.select :end_time, 
+        options_for_select(time_options(), availability.end_time&.strftime("%-l:00 %p")),
+        { include_blank: true }, 
+        { required: true } %>
+</div>
+
+
+
+
+
+
 
   <div>
     <%= form.submit %>

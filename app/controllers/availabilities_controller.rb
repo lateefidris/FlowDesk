@@ -1,9 +1,10 @@
 class AvailabilitiesController < ApplicationController
   before_action :set_availability, only: %i[ show edit update destroy ]
-
+  before_action :set_days, only: [:new, :edit, :create, :update]
   # GET /availabilities or /availabilities.json
   def index
     @availabilities = Availability.all
+    
   end
 
   # GET /availabilities/1 or /availabilities/1.json
@@ -62,6 +63,18 @@ class AvailabilitiesController < ApplicationController
     def set_availability
       @availability = Availability.find(params[:id])
     end
+    def set_days
+      @days = [
+        { id: "Monday", name: "Monday" },
+        { id: "Tuesday", name: "Tuesday" },
+        { id: "Wednesday", name: "Wednesday" },
+        { id: "Thursday" , name: "Thursday" },
+        { id: "Friday", name: "Friday" },
+        { id: "Saturday", name: "Saturday" },
+        { id: "Sunday", name: "Sunday" }
+      ].map { |day| OpenStruct.new(day) }  # Convert each hash to an OpenStruct object
+    end
+    
 
     # Only allow a list of trusted parameters through.
     def availability_params
