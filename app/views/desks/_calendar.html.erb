@@ -19,7 +19,7 @@
       <div class="day">Mon</div>
       <div class="day">Tue</div>
       <div class="day">Wed</div>
-      <div the="day">Thu</div>
+      <div class="day">Thu</div>
       <div class="day">Fri</div>
       <div class="day">Sat</div>
     </div>
@@ -27,27 +27,24 @@
       <!-- Days added via JavaScript -->
     </div>
   </div>
-  <div id="selectedDateTimeDisplay" class="selected-date-time">Selected Date and Time: None</div>
+  <div class="selected-date-time text-center pt-3">Selected Date and Time: <span id="selectedDateTimeDisplay" class="font-bold">None</span></div>
 </div>
 
 <dialog id="timeSlotsModal" class="modal">
   <div class="modal-box text-center">
-    <h2>Available Time Slots</h2>
+    <h2 class="font-bold">Available Time Slots</h2>
     <div class="time-slots">
       <!-- Time slots will be dynamically added here -->
     </div>
-    <input type="text" id="selectedDate" readonly> <!-- Hidden or visible as per your design -->
+    <input type="text" id="selectedDate" class="text-center rounded" readonly> <!-- Hidden or visible as per your design -->
   </div>
 </dialog>
 
 <script type="text/javascript">
-  var availabilities = <%= raw current_user.desks.availability.map { |availability| 
+  var availabilities = <%= raw current_user.desks.availability.map { |availability|
     availability.as_json(methods: [:formatted_start_time, :formatted_end_time])
   }.to_json.html_safe %>;
 </script>
-
-
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -109,48 +106,32 @@
     });
 
   function populateTimeSlots(selectedFullDate) {
-    const date = new Date(selectedFullDate);
-    const dayOfWeek = date.toLocaleString('en-us', { weekday: 'long' }); // Gets the day of the week like 'Monday', 'Tuesday', etc.
-    const dayAvailabilities = availabilities.filter(av => av.day_of_the_week === dayOfWeek);
-
-    timeSlotsContainer.innerHTML = "";
-    if (dayAvailabilities.length > 0) {
-      dayAvailabilities.forEach(av => {
-        const startTime = new Date(av.start_time);
-        const endTime = new Date(av.end_time);
-        let currentTime = new Date(startTime.getTime());
-
-        while (currentTime < endTime) {
-          const timeSlot = currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-          const slotDiv = document.createElement("div");
-          slotDiv.textContent = timeSlot;
-          slotDiv.onclick = function() {
-            const dateTimeFormat = convertToDateTimeFormat(selectedFullDate, timeSlot);
-            appointmentInput.value = dateTimeFormat;
-            selectedDateTimeDisplay.textContent = "Selected Date and Time: " + formatDisplayDateTime(dateTimeFormat);
-            timeSlotsModal.close();
-          };
-          timeSlotsContainer.appendChild(slotDiv);
-
-          // Move to the next hour
-          currentTime.setHours(currentTime.getHours() + 1);
-        }
-      });
-    } else {
-      timeSlotsContainer.innerHTML = "<p>No available time slots for this day.</p>";
-    }
-    timeSlotsModal.showModal();
+  const slots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
+  timeSlotsContainer.innerHTML = "";
+  slots.forEach(slot => {
+    const slotDiv = document.createElement("div");
+    slotDiv.textContent = slot;
+    slotDiv.onclick = function() {
+      const dateTimeFormat = convertToDateTimeFormat(selectedFullDate, slot);
+      appointmentInput.value = dateTimeFormat;
+      selectedDateTimeDisplay.textContent = formatDisplayDateTime(dateTimeFormat);
+      timeSlotsModal.close();
+    };
+    timeSlotsContainer.appendChild(slotDiv);
+  });
+  timeSlotsModal.showModal();
   }
-function convertToDateTimeFormat(date, time) {
+
+  function convertToDateTimeFormat(date, time) {
   const [monthName, day, year] = date.split(' ');
   const monthIndex = months.indexOf(monthName) + 1;
   const formattedMonth = monthIndex.toString().padStart(2, '0');
   const formattedDay = day.padStart(2, '0');
   const formattedTime = convertTo24Hour(time);
   return `${year}-${formattedMonth}-${formattedDay}T${formattedTime}`;
-}
+  }
 
-function convertTo24Hour(timeStr) {
+  function convertTo24Hour(timeStr) {
   let [time, modifier] = timeStr.split(' ');
   let [hours, minutes] = time.split(':');
   hours = parseInt(hours, 10);
@@ -160,23 +141,23 @@ function convertTo24Hour(timeStr) {
     hours = 0;
   }
   return `${hours.toString().padStart(2, '0')}:${minutes}`;
-}
+  }
 
-function convertTo12Hour(timeStr) {
+  function convertTo12Hour(timeStr) {
   const [hours, minutes] = timeStr.split(':');
   const hour = parseInt(hours, 10);
   const modifier = hour >= 12 ? 'PM' : 'AM';
   const formattedHour = ((hour + 11) % 12 + 1); // Converts hour to 12-hour format
   return `${formattedHour}:${minutes} ${modifier}`;
-}
+  }
 
-function formatDisplayDateTime(dateTime) {
+  function formatDisplayDateTime(dateTime) {
   const [datePart, timePart] = dateTime.split('T');
   const [year, month, day] = datePart.split('-');
   const monthName = months[parseInt(month, 10) - 1];
   const formattedTime = convertTo12Hour(timePart);
   return `${monthName} ${parseInt(day)}, ${year} ${formattedTime}`;
-}
+  }
 
 
     nextBtn.addEventListener("click", () => {
@@ -205,8 +186,8 @@ function formatDisplayDateTime(dateTime) {
         timeSlotsModal.close();
       }
     });
-
         console.log(availabilities)
+
 
   });
 </script>

@@ -6,15 +6,15 @@
 - format show bookings page//
 - add inputs to edit profile//
 - edit categories
-
-
+- create landing page
+- STYLE ALL PAGES[service.show, service.form, category.form, bookings.index, bookings.show, desk.edit]
+- notification button
 
 
 - authorizations
 - confirmations//
 - make sure you cant create a record without all required fields
 
-- STYLE ALL PAGES
 
 - send email after booking
 - send email after sign up

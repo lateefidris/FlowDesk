@@ -217,5 +217,5 @@ body {
   border: 1px solid #ddd;
 }
 .unavailable {
-  background-color: #FFCFCF; /* light red for unavailable days */
+  background-color: #329797; /* light red for unavailable days */
 }
