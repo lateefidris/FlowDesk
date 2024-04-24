@@ -20,4 +20,12 @@
 #
 class Availability < ApplicationRecord
   belongs_to :desk, required: true, class_name: "Desk", foreign_key: "desk_id"
+
+  def formatted_start_time
+    self.start_time.strftime("%H:%M")
+  end
+
+  def formatted_end_time
+    self.end_time.strftime("%H:%M")
+  end
 end

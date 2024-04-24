@@ -33,4 +33,5 @@ class Service < ApplicationRecord
   belongs_to :category, required: true, class_name: "Category", foreign_key: "category_id"
   has_many  :bookings, class_name: "Booking", foreign_key: "service_id", dependent: :destroy
   has_one :desk, through: :category
+  has_many_attached :images
 end

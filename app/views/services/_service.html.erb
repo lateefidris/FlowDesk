@@ -24,4 +24,11 @@
     <%= service.category.name %>
   </p>
 
+  <% if service.images.attached? %>
+    <% service.images.each do |image| %>
+      <%= image_tag(image) %>
+      
+    <% end %>
+  <% end %>
+
 </div>

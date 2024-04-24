@@ -1,0 +1,193 @@
+<div class="container">
+  <div class="calendar">
+    <div class="header">
+      <div class="month"></div>
+      <div class="btns">
+        <div class="btn today-btn">
+          <i class="fas fa-calendar-day"></i>
+        </div>
+        <div class="btn prev-btn">
+          <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="btn next-btn">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    </div>
+    <div class="weekdays">
+      <div class="day">Sun</div>
+      <div class="day">Mon</div>
+      <div class="day">Tue</div>
+      <div class="day">Wed</div>
+      <div class="day">Thu</div>
+      <div class="day">Fri</div>
+      <div class="day">Sat</div>
+    </div>
+    <div class="days">
+      <!-- Days added via JavaScript -->
+    </div>
+  </div>
+  <div class="selected-date-time text-center pt-3">Selected Date and Time: <span id="selectedDateTimeDisplay" class="font-bold">None</span></div>
+</div>
+
+<dialog id="timeSlotsModal" class="modal">
+  <div class="modal-box text-center">
+    <h2 class="font-bold">Available Time Slots</h2>
+    <div class="time-slots">
+      <!-- Time slots will be dynamically added here -->
+    </div>
+    <input type="text" id="selectedDate" class="text-center rounded" readonly> <!-- Hidden or visible as per your design -->
+  </div>
+</dialog>
+
+<script type="text/javascript">
+  var availabilities = <%= raw current_user.desks.availability.map { |availability|
+    availability.as_json(methods: [:formatted_start_time, :formatted_end_time])
+  }.to_json.html_safe %>;
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const daysContainer = document.querySelector(".days"),
+          nextBtn = document.querySelector(".next-btn"),
+          prevBtn = document.querySelector(".prev-btn"),
+          month = document.querySelector(".month"),
+          todayBtn = document.querySelector(".today-btn"),
+          timeSlotsModal = document.getElementById("timeSlotsModal"),
+          timeSlotsContainer = timeSlotsModal.querySelector(".time-slots"),
+          closeModalButton = timeSlotsModal.querySelector("button[type='submit']"),
+          selectedDateInput = document.getElementById("selectedDate"),
+          selectedDateTimeDisplay = document.getElementById("selectedDateTimeDisplay"),
+          appointmentInput = document.getElementById("booking_appointment"); // Select the Rails form datetime input
+
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    const date = new Date();
+    let currentMonth = date.getMonth();
+    let currentYear = date.getFullYear();
+
+    function renderCalendar() {
+      date.setDate(1);
+      const firstDayIndex = date.getDay();
+      const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
+      const totalDays = 6 - new Date(currentYear, currentMonth + 1, 0).getDay();
+
+      month.textContent = `${months[currentMonth]} ${currentYear}`;
+      daysContainer.innerHTML = "";
+
+      for (let x = firstDayIndex; x > 0; x--) {
+        daysContainer.innerHTML += `<div class="day prev">${prevLastDay - x + 1}</div>`;
+      }
+
+      for (let i = 1; i <= lastDay; i++) {
+        let dayClass = "day";
+        if (i === new Date().getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear()) {
+          dayClass += " today";
+        }
+  daysContainer.innerHTML += `<div class="${dayClass}" data-date="${months[currentMonth]} ${i} ${currentYear}">${i}</div>`;
+
+      }
+
+      for (let j = 1; j <= totalDays; j++) {
+        daysContainer.innerHTML += `<div class="day next">${j}</div>`;
+      }
+    }
+
+    daysContainer.addEventListener("click", function(event) {
+      if (event.target.classList.contains("day") && !event.target.classList.contains("prev") && !event.target.classList.contains("next")) {
+        const selectedFullDate = event.target.getAttribute("data-date");
+        selectedDateInput.value = selectedFullDate; // Set the selected date in the input field
+        populateTimeSlots(selectedFullDate);
+      }
+    });
+
+  function populateTimeSlots(selectedFullDate) {
+  const slots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
+  timeSlotsContainer.innerHTML = "";
+  slots.forEach(slot => {
+    const slotDiv = document.createElement("div");
+    slotDiv.textContent = slot;
+    slotDiv.onclick = function() {
+      const dateTimeFormat = convertToDateTimeFormat(selectedFullDate, slot);
+      appointmentInput.value = dateTimeFormat;
+      selectedDateTimeDisplay.textContent = formatDisplayDateTime(dateTimeFormat);
+      timeSlotsModal.close();
+    };
+    timeSlotsContainer.appendChild(slotDiv);
+  });
+  timeSlotsModal.showModal();
+  }
+
+  function convertToDateTimeFormat(date, time) {
+  const [monthName, day, year] = date.split(' ');
+  const monthIndex = months.indexOf(monthName) + 1;
+  const formattedMonth = monthIndex.toString().padStart(2, '0');
+  const formattedDay = day.padStart(2, '0');
+  const formattedTime = convertTo24Hour(time);
+  return `${year}-${formattedMonth}-${formattedDay}T${formattedTime}`;
+  }
+
+  function convertTo24Hour(timeStr) {
+  let [time, modifier] = timeStr.split(' ');
+  let [hours, minutes] = time.split(':');
+  hours = parseInt(hours, 10);
+  if (modifier === 'PM' && hours < 12) {
+    hours += 12;
+  } else if (modifier === 'AM' && hours === 12) {
+    hours = 0;
+  }
+  return `${hours.toString().padStart(2, '0')}:${minutes}`;
+  }
+
+  function convertTo12Hour(timeStr) {
+  const [hours, minutes] = timeStr.split(':');
+  const hour = parseInt(hours, 10);
+  const modifier = hour >= 12 ? 'PM' : 'AM';
+  const formattedHour = ((hour + 11) % 12 + 1); // Converts hour to 12-hour format
+  return `${formattedHour}:${minutes} ${modifier}`;
+  }
+
+  function formatDisplayDateTime(dateTime) {
+  const [datePart, timePart] = dateTime.split('T');
+  const [year, month, day] = datePart.split('-');
+  const monthName = months[parseInt(month, 10) - 1];
+  const formattedTime = convertTo12Hour(timePart);
+  return `${monthName} ${parseInt(day)}, ${year} ${formattedTime}`;
+  }
+
+
+    nextBtn.addEventListener("click", () => {
+      currentMonth = (currentMonth + 1) % 12;
+      currentYear = (currentMonth === 0) ? currentYear + 1 : currentYear;
+      renderCalendar();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      currentMonth = (currentMonth - 1 + 12) % 12;
+      currentYear = (currentMonth === 11) ? currentYear - 1 : currentYear;
+      renderCalendar();
+    });
+
+    todayBtn.addEventListener("click", () => {
+      currentMonth = date.getMonth();
+      currentYear = date.getFullYear();
+      renderCalendar();
+    });
+
+    renderCalendar();
+
+    // Close modal on outside click
+    window.addEventListener("click", function(event) {
+      if (event.target === timeSlotsModal) {
+        timeSlotsModal.close();
+      }
+    });
+        console.log(availabilities)
+
+
+  });
+</script>

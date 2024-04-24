@@ -41,15 +41,15 @@ class Booking < ApplicationRecord
     end.upcase
 
     formatted_end_time = if end_time.strftime("%M") == "00"
-        end_time.strftime("%-l%p")
-      else
-        end_time.strftime("%-l:%M%p")
-      end.upcase
+      end_time.strftime("%-l%p")
+    else
+      end_time.strftime("%-l:%M%p")
+    end.upcase
 
-        "#{formatted_start_time}-#{formatted_end_time}"
-      end
+    "#{formatted_start_time}-#{formatted_end_time}"
+  end
 
-    def date_format
-      self.appointment.strftime("%b%d").upcase 
-    end
+  def date_format
+    self.appointment.strftime("%b%d").upcase
+  end
 end

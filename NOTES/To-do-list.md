@@ -4,16 +4,17 @@
 - format client pages//
 - seperate landing and features page
 - format show bookings page//
-- add inputs to edit profile
-
-
+- add inputs to edit profile//
+- edit categories
+- create landing page
+- STYLE ALL PAGES[service.show, service.form, category.form, bookings.index, bookings.show, desk.edit]
+- notification button
 
 
 - authorizations
 - confirmations//
 - make sure you cant create a record without all required fields
 
-- STYLE ALL PAGES
 
 - send email after booking
 - send email after sign up
@@ -21,7 +22,7 @@
 
 ## Down the line
 - incorporate AI into professional side and client side
-- add images to services
+- add images to services//
 - themes
 - messages
 - notifications
@@ -32,8 +33,13 @@
 - customer loyalty rewards
 - achievements**
 - goals**
-- policies
+- store policies
 - service request
+
+- oauth
+- seo
+- metatags
+- "webhook"
 
 
 <h1>

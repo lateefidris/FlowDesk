@@ -1,14 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Availabilities</h1>
+<h1>Availability</h1>
 
 <div id="availabilities">
-  <% @availabilities.each do |availability| %>
+  <% current_user.desks.availability.each do |availability| %>
     <%= render availability %>
-    <p>
-      <%= link_to "Show this availability", availability %>
-    </p>
+  <%= link_to "Edit this availability", edit_availability_path(availability) %> 
   <% end %>
 </div>
 
-<%= link_to "New availability", new_availability_path %>
+<%= link_to "Add Day", new_availability_path %>

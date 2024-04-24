@@ -38,7 +38,9 @@ class ServicesController < ApplicationController
   # PATCH/PUT /services/1 or /services/1.json
   def update
     respond_to do |format|
-      if @service.update(service_params)
+      if @service.update(service_params.except(:images, :images_to_keep))
+        attach_new_images(params[:service][:images]) if params[:service][:images]
+                     
         format.html { redirect_to service_url(@service), notice: "Service was successfully updated." }
         format.json { render :show, status: :ok, location: @service }
       else
@@ -47,6 +49,9 @@ class ServicesController < ApplicationController
       end
     end
   end
+  
+  
+  
 
   # DELETE /services/1 or /services/1.json
   def destroy
@@ -56,6 +61,12 @@ class ServicesController < ApplicationController
       format.html { redirect_to services_url, notice: "Service was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def delete_attachment
+    @service_image = ActiveStorage::Attachment.find(params[:id])
+    @service_image.purge
+    redirect_back(fallback_location: request.referer)
   end
 
   private
@@ -72,6 +83,15 @@ class ServicesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def service_params
-      params.require(:service).permit(:name, :description, :price, :time_in_minutes, :category_id)
+      params.require(:service).permit(:name, :description, :price, :time_in_minutes, :category_id, images: [])
     end
+    
+
+    def attach_new_images(images)
+      images.each do |image|
+        @service.images.attach(image)
+      end
+    end
+    
+    
 end

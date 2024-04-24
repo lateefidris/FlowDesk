@@ -26,6 +26,11 @@ class DesksController < ApplicationController
       # Additional logic for the service can be implemented here
       # For example, you might want to check if the service is offered by the desk
     end
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   # GET /desks/new

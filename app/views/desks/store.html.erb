@@ -20,26 +20,26 @@
     </p>
   </div>
 
- <div class="flex flex-col items-center justify-center w-full">
-  <% @desk.categories.each_with_index do |category, index| %>
-    <div class="collapse collapse-arrow bg-orange-600 rounded-none m-3 p-2 w-full max-w-4xl">
-      <input type="checkbox" id="accordion-<%= index %>" class="peer hidden-checkbox" />
+  <div class="flex flex-col items-center justify-center w-full">
+    <% @desk.categories.each_with_index do |category, index| %>
+      <div class="collapse collapse-arrow bg-orange-600 rounded-none m-3 p-2 w-full max-w-4xl">
+        <input type="checkbox" id="accordion-<%= index %>" class="peer hidden-checkbox" />
 
-      <label for="accordion-<%= index %>" class="collapse-title text-3xl text-center text-white uppercase font-medium cursor-pointer block tracking-[.5em]">
-        <%= category.name %>
-      </label>
+        <label for="accordion-<%= index %>" class="collapse-title text-3xl text-center text-white uppercase font-medium cursor-pointer block tracking-[.5em]">
+          <%= category.name %>
+        </label>
 
-      <div class="collapse-content transition-all overflow-hidden max-h-0 peer-checked:max-h-96">
-        <ul>
-          <% category.services.each_with_index do |service, s_index| %>
-            <li class="service-item bg-white m-4 p-4 uppercase text-center text-orange-700 text-xl font-bold tracking-widest" style="transition-delay: <%= s_index * 0.3 %>s;">
-              <%= link_to service.name, desk_service_path(desk_name: @desk.name, service_name: service.name) %>
-            </li>
-          <% end %>
-        </ul>
+        <div class="collapse-content transition-all overflow-hidden max-h-0 peer-checked:max-h-96">
+          <ul>
+            <% category.services.each_with_index do |service, s_index| %>
+              <li class="service-item bg-white m-4 p-4 uppercase text-center text-orange-700 text-xl font-bold tracking-widest" style="transition-delay: <%= s_index * 0.3 %>s;">
+                <%= link_to service.name, desk_service_path(desk_name: @desk.name, service_name: service.name) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
 
 </div>

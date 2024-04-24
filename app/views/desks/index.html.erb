@@ -3,7 +3,7 @@
 <div id="desks" class="flex flex-wrap justify-center">
 
   <% if current_user.desks.present? %>
-    <div class="max-w-3xl">
+    <div class="">
       <div>
         <%= render current_user.desks %>
       </div>
@@ -33,7 +33,7 @@
                 <%= link_to "Booking for #{booking.service.name}", booking_path(booking), class: "text-black hover:text-orange-500" %>
                 <p class="font-bold text-black"><%= booking.date_format %></p>
                 <div class="mt-2 flex justify-center">
-                  <%= button_to complete_booking_path(booking), method: :patch, data: { turbo_confirm: "Are you sure you want to confirm this booking?" }, class: "bg-orange-600 hover:bg-orange-700 p-2 mx-2 rounded" do %>
+                  <%= button_to confirm_booking_path(booking), method: :patch, data: { turbo_confirm: "Are you sure you want to confirm this booking?" }, class: "bg-orange-600 hover:bg-orange-700 p-2 mx-2 rounded" do %>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
