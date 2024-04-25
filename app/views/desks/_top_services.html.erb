@@ -1,65 +1,67 @@
-<%# Initialize a hash to count occurrences of each service_id %>
-<% service_counts = current_user.desks.bookings.completed.each_with_object(Hash.new(0)) do |booking, counts| %>
-  <% counts[booking.service_id] += 1 %>
-<% end %>
+    
+<div>
+  <h2 class=" text-center text-4xl uppercase mt-5 font-black text-black py-3">Top Services</h2>
+  <%# Initialize a hash to count occurrences of each service_id %>
+  <% service_counts = current_user.desks.bookings.completed.each_with_object(Hash.new(0)) do |booking, counts| %>
+    <% counts[booking.service_id] += 1 %>
+  <% end %>
 
-<%# Sort service_ids by their frequency and limit to the top 5 %>
-<% sorted_service_ids = service_counts.sort_by { |_, count| -count }.map(&:first).first(5) %>
+  <%# Sort service_ids by their frequency and limit to the top 5 %>
+  <% sorted_service_ids = service_counts.sort_by { |_, count| -count }.map(&:first).first(5) %>
 
-<% counter = 1 %>
-<%# Collect and display each Service object in order %>
-<% sorted_service_ids.each_with_index do |service_id, index| %>
-  <% service = Service.find(service_id) %>
+  <% counter = 1 %>
+  <%# Collect and display each Service object in order %>
+  <% sorted_service_ids.each_with_index do |service_id, index| %>
+    <% service = Service.find(service_id) %>
 
-  <div class="flex items-center bg-orange-600 text-orange-100 p-4 m-3 ">
-    <span class="text-4xl font-bold pr-4 border-r">
-      <%= index + 1 %>
-    </span>
-    <div class="flex flex-row flex-grow pl-4 justify-between">
-      <h3 class="flex items-center uppercase text-l font-bold">
-        <%= service.name %>
-      </h3>
-      <div id="block" class="flex">
-        <div class="text-lg bg-orange-100 text-orange-500 rounded-sm px-3 py-1">
-          <span class="font-bold text-black">
-            <%= service_counts[service_id] %>
-          </span>
-          BOOKINGS
+    <div class="flex items-center bg-orange-600 text-orange-100 p-4 m-3 ">
+      <span class="text-4xl font-bold pr-4 border-r">
+        <%= index + 1 %>
+      </span>
+      <div class="flex flex-row flex-grow pl-4 justify-between">
+        <h3 class="flex items-center uppercase text-l font-bold">
+          <%= service.name %>
+        </h3>
+        <div id="block" class="flex">
+          <div class="text-lg bg-orange-100 text-orange-500 rounded-sm px-3 py-1">
+            <span class="font-bold text-black">
+              <%= service_counts[service_id] %>
+            </span>
+            BOOKINGS
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-<% end %>
-
-<h1 class="text-5xl text-center font-black text-orange-600"><%= current_user.desks.bookings.completed.count %></h1>
-<h2 class="text-center uppercase font-bold text-black">bookings completed</h2>
-
-<% total_revenue = 0 %>
-<% current_user.desks.bookings.completed.each do |booking| %>
-  <% if booking.service %>
-    <% total_revenue += booking.service.price %>
   <% end %>
-<% end %>
-<% number_to_currency(total_revenue) %>
 
+  <h1 class="text-5xl text-center font-black text-orange-600"><%= current_user.desks.bookings.completed.count %></h1>
+  <h2 class="text-center uppercase font-bold text-black">bookings completed</h2>
 
-<div class="text-center py-3">
- <img id="startButton" src="<%= asset_path('money.png') %>" class="cursor-pointer block mx-auto transition duration-300 hover:scale-105 hover:rotate-6" alt="Start Button" style="width: 100px; height: auto;">
-
-
-  <h1 id="revenueCounter" class="text-4xl font-black text-lime-600 cursor-pointer hidden">
-    $0
-  </h1>
-  <h2 class="uppercase font-bold text-black hidden">Total Revenue</h2>
-
-  <div id="revenueDetails" class="hidden pb-6">
-    <h2 class="text-center  font-bold text-black text-xl uppercase">Total Earnings</h2>
-    <% current_user.desks.bookings.completed.each do |booking| %>
-      <% if booking.service %>
-        <p class="text-sm text-gray-700 font-bold"><%= booking.service.name %>: <%= number_to_currency(booking.service.price) %></p>
-      <% end %>
+  <% total_revenue = 0 %>
+  <% current_user.desks.bookings.completed.each do |booking| %>
+    <% if booking.service %>
+      <% total_revenue += booking.service.price %>
     <% end %>
+  <% end %>
+  <% number_to_currency(total_revenue) %>
+
+  <div class="text-center py-3">
+    <img id="startButton" src="<%= asset_path('money.png') %>" class="cursor-pointer block mx-auto transition duration-300 hover:scale-105 hover:rotate-6" alt="Start Button" style="width: 100px; height: auto;">
+
+    <h1 id="revenueCounter" class="text-4xl font-black text-lime-600 cursor-pointer hidden">
+      $0
+    </h1>
+    <h2 class="uppercase font-bold text-black hidden">Total Revenue</h2>
+
+    <div id="revenueDetails" class="hidden pb-6">
+      <h2 class="text-center  font-bold text-black text-xl uppercase">Total Earnings</h2>
+      <% current_user.desks.bookings.completed.each do |booking| %>
+        <% if booking.service %>
+          <p class="text-sm text-gray-700 font-bold"><%= booking.service.name %>: <%= number_to_currency(booking.service.price) %></p>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 

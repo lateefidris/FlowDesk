@@ -1,8 +1,8 @@
 <div id="<%= dom_id desk %>">
-  <div class="flex flex-col w-full mt-3 items-center relative">
+  <div class="flex flex-col w-full mt-3 items-center relative max-w-2xl border">
     <p class="absolute top-0 right-0 m-3">
-  <%= link_to image_tag('edit_icon.png', alt: 'Edit desk', width: "30", height: "auto"), edit_desk_path(current_user.desks) %>
-</p>
+      <%= link_to image_tag('edit_icon.png', alt: 'Edit desk', width: "30", height: "auto"), edit_desk_path(current_user.desks) %>
+    </p>
 
     <div class="">
       <img src="<%= desk.profile_picture %>" alt="profile picture" >
