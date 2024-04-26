@@ -109,4 +109,6 @@ gem "tailwindcss-rails", "~> 2.4"
 
 gem 'aws-sdk-s3', require: false
 
+gem 'simple_form-tailwind'
+
 # gem 'rails_admin' 
