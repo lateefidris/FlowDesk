@@ -1,9 +1,9 @@
 <p style="color: green"><%= notice %></p>
 
-<div id="desks" class="flex flex-wrap justify-center border">
+<div id="desks" class="flex flex-wrap justify-center">
 
   <% if current_user.desks.present? %>
-    <div>
+    <div class="">
       <div>
         <%= render current_user.desks %>
       </div>
@@ -13,15 +13,49 @@
         <div>
           <%= render partial: "desks/upcoming_bookings" %>
         </div>
-        <%= render partial: "desks/pending_bookings" %>
 
       </div>
     </div>
-    <div class=" flex-grow max-w-2xl my-2 rounded bg-orange-100 border-2 border-black %">
+
+    <div class="flex flex-col items-center justify-center w-full">
+      <!-- Collapsible for Pending Bookings -->
+      <div class="collapse border-black border-2 bg-orange-100 rounded-none m-2 p-2 w-full max-w-3xl">
+        <input type="checkbox" id="pending-bookings" class="peer hidden-checkbox" />
+
+        <label for="pending-bookings" class="collapse-title text-center text-3xl py-2 px-2 text-orange-500 uppercase cursor-pointer w-full">
+          You have <span class="text-black font-black hover:text-orange-600"><%= current_user.desks.bookings.pending.count %></span> Pending Bookings
+        </label>
+        <div class="collapse-content transition-all overflow-hidden max-h-0 peer-checked:max-h-96 w-full">
+          <ul class="w-full">
+            <% current_user.desks.bookings.pending.each_with_index do |booking, index| %>
+              <li class="service-item bg-white m-4 p-4 uppercase text-center text-orange-700 text-m  tracking-widest transition delay-75 duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg" style="transition-delay: <%= index * 0.1 %>s;">
+                <p class="font-bold hover:text-orange-500"><%= booking.client_name %></p>
+                <%= link_to "Booking for #{booking.service.name}", booking_path(booking), class: "text-black hover:text-orange-500" %>
+                <p class="font-bold text-black"><%= booking.date_format %></p>
+                <div class="mt-2 flex justify-center">
+                  <%= button_to confirm_booking_path(booking), method: :patch, data: { turbo_confirm: "Are you sure you want to confirm this booking?" }, class: "bg-orange-600 hover:bg-orange-700 p-2 mx-2 rounded" do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                  <% end %>
+                  <%= button_to booking_path(booking), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "bg-orange-600 hover:bg-orange-700 p-2 mx-2 rounded" do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  <% end %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class=" flex-grow max-w-3xl mt-3 rounded bg-orange-100 border-2 border-black %">
 
       <%= render partial: "desks/top_services" %>
-
     </div>
+
   <% else %>
     <%= link_to "New Desk", new_desk_path %>
   <% end %>

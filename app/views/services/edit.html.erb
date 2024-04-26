@@ -1,10 +1,7 @@
-<h1>Editing service</h1>
-
-<%= render "form", service: @service %>
-
-<br>
-
-<div>
-  <%= link_to "Show this service", @service %> |
-  <%= link_to "Back to services", services_path %>
+<div class="flex flex-col justify-center items-center m-8">
+  <h1 class="text-center py-4 text-3xl font-bold">Edit service</h1>
+  <div class="max-w-xl w-full">
+    <%= render "form", service: @service %>
+  </div>
+  <br>
 </div>
