@@ -132,20 +132,27 @@
   }
 
   function addDayClickEvent() {
-  document.querySelectorAll(".days .day").forEach(day => {
+  // Select only the days that do not have the 'prev' or 'next' class
+  document.querySelectorAll(".days .day:not(.prev):not(.next)").forEach(day => {
     day.addEventListener("click", function() {
       const selectedDay = day.dataset.date;
       const selectedMonth = months[currentMonth];
-      const selectedDate = `${selectedDay} ${selectedMonth} ${currentYear}`;
+      const selectedYear = currentYear; // Capture the year as well
+      const selectedDate = `${selectedDay} ${selectedMonth} ${selectedYear}`;
+
+      // Set the selected date in the input and display areas
       document.getElementById("selectedDate").value = selectedDate;
-      document.getElementById("selectedDateTimeDisplay").textContent = selectedDate;
+
+      // Format the friendly date for the first click display
+      const friendlyDate = `${selectedMonth} ${selectedDay}, ${selectedYear}`;
+      document.getElementById("selectedDateTimeDisplay").textContent = friendlyDate;
 
       // Populate time slots based on the selected date
       populateTimeSlots(selectedDate);
       document.getElementById("timeSlotsModal").showModal();
     });
   });
-  }
+}
 
 
   function populateTimeSlots(selectedDate) {
