@@ -53,7 +53,7 @@
   prevBtn = document.querySelector(".prev-btn"),
   month = document.querySelector(".month"),
   todayBtn = document.querySelector(".today-btn");
-  appointmentInput = document.getElementById("booking_appointment"); // Select the Rails form datetime input
+   // Select the Rails form datetime input
 
   const months = [
   "January",
@@ -141,7 +141,7 @@
       const selectedDate = `${selectedDay} ${selectedMonth} ${selectedYear}`;
 
       // Set the selected date in the input and display areas
-      document.getElementById("selectedDate").value = selectedDate;
+      document.getElementById("selectedDate").value = `${selectedMonth} ${selectedDay}, ${selectedYear}`
 
       // Format the friendly date for the first click display
       const friendlyDate = `${selectedMonth} ${selectedDay}, ${selectedYear}`;
@@ -149,46 +149,70 @@
 
       // Populate time slots based on the selected date
       populateTimeSlots(selectedDate);
-      document.getElementById("timeSlotsModal").showModal();
+      document.getElementById("timeSlotsModal").show();
     });
   });
 }
 
 
-  function populateTimeSlots(selectedDate) {
+ function populateTimeSlots(selectedDate) {
   const timeSlotsContainer = document.querySelector(".time-slots");
   timeSlotsContainer.innerHTML = ''; // Clear previous time slots
+  const appointmentInput = document.getElementById('appointmentInput'); // Ensure this is the correct ID for your input field
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const currentYear = new Date(selectedDate).getFullYear();
+  const currentMonth = new Date(selectedDate).getMonth();
 
-  const slots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
+  // Parse the selected date to get the day of the week
+  const dateObj = new Date(selectedDate);
+  const dayOfWeek = dateObj.toLocaleString('en-us', { weekday: 'long' });
+
+  // Filter availabilities for the selected day of the week
+  const daySlots = availabilities.filter(slot => slot.day_of_the_week === dayOfWeek);
+
+  if (daySlots.length === 0) {
+    timeSlotsContainer.textContent = 'No time slots available';
+    return;
+  }
 
   // Create a <ul> element to hold the list items
   const list = document.createElement("ul");
   list.className = 'time-slot-list';
 
-  slots.forEach(slot => {
-    const listItem = document.createElement("li");
-    listItem.className = 'time-slot-item';
-    listItem.textContent = slot;
+  // Iterate over filtered time slots for the day
+  daySlots.forEach(slot => {
+    const startHour = new Date(slot.start_time);
+    const endHour = new Date(slot.end_time);
 
-    // Add a click event listener to each list item
-    listItem.addEventListener('click', () => {
-     const dateObj = new Date(`${selectedDate} ${slot}`);
-       const timeZoneOffset = dateObj.getTimezoneOffset() * 60000; // offset in milliseconds
-      const localTime = new Date(dateObj.getTime() - timeZoneOffset);
-      const isoDate = localTime.toISOString().slice(0, 16); // Formats date to 'YYYY-MM-DDTHH:MM' format
-      const friendlyDate = `${months[currentMonth]} ${dateObj.getDate()}, ${currentYear} ${slot}`;
-      
-      document.getElementById("selectedDateTimeDisplay").textContent = friendlyDate;
-      appointmentInput.value = isoDate;
-      document.getElementById('timeSlotsModal').close(); // Close the modal after selecting a time
-    });
+    // Loop through each hour from start to end
+    for (let hour = new Date(startHour); hour <= endHour; hour.setHours(hour.getHours() + 1)) {
+      const listItem = document.createElement("li");
+      listItem.className = 'time-slot-item';
+      const formattedHour = hour.toLocaleTimeString('en-US', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' });
+      listItem.textContent = formattedHour;
 
+      // Add a click event listener to each list item
+      listItem.addEventListener('click', () => {
+        const dateTime = new Date(`${selectedDate} ${formattedHour}`);
+        const timeZoneOffset = dateTime.getTimezoneOffset() * 60000; // offset in milliseconds
+        const localTime = new Date(dateTime.getTime() - timeZoneOffset);
+        const isoDate = localTime.toISOString().slice(0, 16); // Formats date to 'YYYY-MM-DDTHH:MM' format
+        const friendlyDate = `${months[currentMonth]} ${dateTime.getDate()}, ${currentYear} ${formattedHour}`;
+        const appointmentInput = document.getElementById("booking_appointment");
 
-    list.appendChild(listItem);
+        document.getElementById("selectedDateTimeDisplay").textContent = friendlyDate;
+        appointmentInput.value = isoDate;
+        document.getElementById("timeSlotsModal").close(); // Close the modal after selecting a time
+      });
+
+      list.appendChild(listItem);
+    }
   });
 
   timeSlotsContainer.appendChild(list); // Append the list to the container
-  }
+}
+
+
 
 
 

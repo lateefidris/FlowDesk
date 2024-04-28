@@ -37,14 +37,15 @@
   </div>
 
   <div class="relative z-0 w-full mb-6 group">
-     <%= render 'desks/calendar', booking: @booking %>
-     
-    <%= form.hidden_field :appointment, required: true, class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"%>
+    <%= render 'desks/calendar', booking: @booking %>
+
+    <%= form.datetime_field :appointment, required: true, class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"%>
   </div>
 
-<div class="text-center">
-  <%= form.submit "Request Booking", class: "text-white bg-orange-600 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-600 font-medium rounded-sm text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-orange-600 dark:focus:ring-orange-600 transition duration-300 ease-in-out ", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  <div class="text-center">
+    <%= form.submit "Request Booking", class: "text-white bg-orange-600 hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-600 font-medium rounded-sm text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-orange-600 dark:focus:ring-orange-600 transition duration-300 ease-in-out ", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 
-</div>
+  </div>
 
 <% end %>
+
