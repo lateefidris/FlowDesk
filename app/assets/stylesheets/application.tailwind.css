@@ -207,13 +207,25 @@
   border: 1px solid #ccc;
   background-color: #fff;
 }
-.time-slots div {
-  margin: 10px;
-  cursor: pointer;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
+.time-slot-list {
+  list-style: none; /* Removes default list styling */
+  padding: 0;
 }
-.unavailable {
-  background-color: #329797; /* light red for unavailable days */
+
+.time-slot-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  cursor: pointer; /* Makes it clear the item is clickable */
+  background-color: #f8f8f8;
+}
+
+.time-slot-item:hover {
+  background-color: #e9e9e9; /* Light hover effect */
+}
+
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none; /* This prevents clicks on the modal when it's invisible */
 }

@@ -48,146 +48,196 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const daysContainer = document.querySelector(".days"),
-          nextBtn = document.querySelector(".next-btn"),
-          prevBtn = document.querySelector(".prev-btn"),
-          month = document.querySelector(".month"),
-          todayBtn = document.querySelector(".today-btn"),
-          timeSlotsModal = document.getElementById("timeSlotsModal"),
-          timeSlotsContainer = timeSlotsModal.querySelector(".time-slots"),
-          closeModalButton = timeSlotsModal.querySelector("button[type='submit']"),
-          selectedDateInput = document.getElementById("selectedDate"),
-          selectedDateTimeDisplay = document.getElementById("selectedDateTimeDisplay"),
-          appointmentInput = document.getElementById("booking_appointment"); // Select the Rails form datetime input
+  const daysContainer = document.querySelector(".days"),
+  nextBtn = document.querySelector(".next-btn"),
+  prevBtn = document.querySelector(".prev-btn"),
+  month = document.querySelector(".month"),
+  todayBtn = document.querySelector(".today-btn");
+  appointmentInput = document.getElementById("booking_appointment"); // Select the Rails form datetime input
 
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
+  const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+  ];
 
-    const date = new Date();
-    let currentMonth = date.getMonth();
-    let currentYear = date.getFullYear();
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    function renderCalendar() {
-      date.setDate(1);
-      const firstDayIndex = date.getDay();
-      const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
-      const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
-      const totalDays = 6 - new Date(currentYear, currentMonth + 1, 0).getDay();
+  // get current date
+  const date = new Date();
 
-      month.textContent = `${months[currentMonth]} ${currentYear}`;
-      daysContainer.innerHTML = "";
+  // get current month
+  let currentMonth = date.getMonth();
 
-      for (let x = firstDayIndex; x > 0; x--) {
-        daysContainer.innerHTML += `<div class="day prev">${prevLastDay - x + 1}</div>`;
-      }
+  // get current year
+  let currentYear = date.getFullYear();
 
-      for (let i = 1; i <= lastDay; i++) {
-        let dayClass = "day";
-        if (i === new Date().getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear()) {
-          dayClass += " today";
-        }
-  daysContainer.innerHTML += `<div class="${dayClass}" data-date="${months[currentMonth]} ${i} ${currentYear}">${i}</div>`;
+  // function to render days
+  function renderCalendar() {
+  // get prev month current month and next month days
+  date.setDate(1);
+  const firstDay = new Date(currentYear, currentMonth, 1);
+  const lastDay = new Date(currentYear, currentMonth + 1, 0);
+  const lastDayIndex = lastDay.getDay();
+  const lastDayDate = lastDay.getDate();
+  const prevLastDay = new Date(currentYear, currentMonth, 0);
+  const prevLastDayDate = prevLastDay.getDate();
+  const nextDays = 7 - lastDayIndex - 1;
 
-      }
+  // update current year and month in header
+  month.innerHTML = `${months[currentMonth]} ${currentYear}`;
 
-      for (let j = 1; j <= totalDays; j++) {
-        daysContainer.innerHTML += `<div class="day next">${j}</div>`;
-      }
+  // update days html
+  let days = "";
+
+  // prev days html
+  for (let x = firstDay.getDay(); x > 0; x--) {
+    days += `<div class="day prev" data-date="${prevLastDayDate - x + 1}">${prevLastDayDate - x + 1}</div>`;
+  }
+
+  // current month days
+  for (let i = 1; i <= lastDayDate; i++) {
+    // check if its today then add today class
+    if (
+      i === new Date().getDate() &&
+      currentMonth === new Date().getMonth() &&
+      currentYear === new Date().getFullYear()
+    ) {
+      // if date month year matches add today
+      days += `<div class="day today" data-date="${i}">${i}</div>`;
+    } else {
+      //else dont add today
+      days += `<div class="day " data-date="${i}">${i}</div>`;
     }
+  }
 
-    daysContainer.addEventListener("click", function(event) {
-      if (event.target.classList.contains("day") && !event.target.classList.contains("prev") && !event.target.classList.contains("next")) {
-        const selectedFullDate = event.target.getAttribute("data-date");
-        selectedDateInput.value = selectedFullDate; // Set the selected date in the input field
-        populateTimeSlots(selectedFullDate);
-      }
+  // next MOnth days
+  for (let j = 1; j <= nextDays; j++) {
+    days += `<div class="day next" data-date="${j}">${j}</div>`;
+  }
+
+  // run this function with every calendar render
+  daysContainer.innerHTML = days;
+  hideTodayBtn();
+  addDayClickEvent();
+  }
+
+  function addDayClickEvent() {
+  document.querySelectorAll(".days .day").forEach(day => {
+    day.addEventListener("click", function() {
+      const selectedDay = day.dataset.date;
+      const selectedMonth = months[currentMonth];
+      const selectedDate = `${selectedDay} ${selectedMonth} ${currentYear}`;
+      document.getElementById("selectedDate").value = selectedDate;
+      document.getElementById("selectedDateTimeDisplay").textContent = selectedDate;
+
+      // Populate time slots based on the selected date
+      populateTimeSlots(selectedDate);
+      document.getElementById("timeSlotsModal").showModal();
     });
-
-  function populateTimeSlots(selectedFullDate) {
-  const slots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
-  timeSlotsContainer.innerHTML = "";
-  slots.forEach(slot => {
-    const slotDiv = document.createElement("div");
-    slotDiv.textContent = slot;
-    slotDiv.onclick = function() {
-      const dateTimeFormat = convertToDateTimeFormat(selectedFullDate, slot);
-      appointmentInput.value = dateTimeFormat;
-      selectedDateTimeDisplay.textContent = formatDisplayDateTime(dateTimeFormat);
-      timeSlotsModal.close();
-    };
-    timeSlotsContainer.appendChild(slotDiv);
   });
-  timeSlotsModal.showModal();
-  }
-
-  function convertToDateTimeFormat(date, time) {
-  const [monthName, day, year] = date.split(' ');
-  const monthIndex = months.indexOf(monthName) + 1;
-  const formattedMonth = monthIndex.toString().padStart(2, '0');
-  const formattedDay = day.padStart(2, '0');
-  const formattedTime = convertTo24Hour(time);
-  return `${year}-${formattedMonth}-${formattedDay}T${formattedTime}`;
-  }
-
-  function convertTo24Hour(timeStr) {
-  let [time, modifier] = timeStr.split(' ');
-  let [hours, minutes] = time.split(':');
-  hours = parseInt(hours, 10);
-  if (modifier === 'PM' && hours < 12) {
-    hours += 12;
-  } else if (modifier === 'AM' && hours === 12) {
-    hours = 0;
-  }
-  return `${hours.toString().padStart(2, '0')}:${minutes}`;
-  }
-
-  function convertTo12Hour(timeStr) {
-  const [hours, minutes] = timeStr.split(':');
-  const hour = parseInt(hours, 10);
-  const modifier = hour >= 12 ? 'PM' : 'AM';
-  const formattedHour = ((hour + 11) % 12 + 1); // Converts hour to 12-hour format
-  return `${formattedHour}:${minutes} ${modifier}`;
-  }
-
-  function formatDisplayDateTime(dateTime) {
-  const [datePart, timePart] = dateTime.split('T');
-  const [year, month, day] = datePart.split('-');
-  const monthName = months[parseInt(month, 10) - 1];
-  const formattedTime = convertTo12Hour(timePart);
-  return `${monthName} ${parseInt(day)}, ${year} ${formattedTime}`;
   }
 
 
-    nextBtn.addEventListener("click", () => {
-      currentMonth = (currentMonth + 1) % 12;
-      currentYear = (currentMonth === 0) ? currentYear + 1 : currentYear;
-      renderCalendar();
+  function populateTimeSlots(selectedDate) {
+  const timeSlotsContainer = document.querySelector(".time-slots");
+  timeSlotsContainer.innerHTML = ''; // Clear previous time slots
+
+  const slots = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
+
+  // Create a <ul> element to hold the list items
+  const list = document.createElement("ul");
+  list.className = 'time-slot-list';
+
+  slots.forEach(slot => {
+    const listItem = document.createElement("li");
+    listItem.className = 'time-slot-item';
+    listItem.textContent = slot;
+
+    // Add a click event listener to each list item
+    listItem.addEventListener('click', () => {
+     const dateObj = new Date(`${selectedDate} ${slot}`);
+       const timeZoneOffset = dateObj.getTimezoneOffset() * 60000; // offset in milliseconds
+      const localTime = new Date(dateObj.getTime() - timeZoneOffset);
+      const isoDate = localTime.toISOString().slice(0, 16); // Formats date to 'YYYY-MM-DDTHH:MM' format
+      const friendlyDate = `${months[currentMonth]} ${dateObj.getDate()}, ${currentYear} ${slot}`;
+      
+      document.getElementById("selectedDateTimeDisplay").textContent = friendlyDate;
+      appointmentInput.value = isoDate;
+      document.getElementById('timeSlotsModal').close(); // Close the modal after selecting a time
     });
 
-    prevBtn.addEventListener("click", () => {
-      currentMonth = (currentMonth - 1 + 12) % 12;
-      currentYear = (currentMonth === 11) ? currentYear - 1 : currentYear;
-      renderCalendar();
-    });
 
-    todayBtn.addEventListener("click", () => {
-      currentMonth = date.getMonth();
-      currentYear = date.getFullYear();
-      renderCalendar();
-    });
+    list.appendChild(listItem);
+  });
 
-    renderCalendar();
-
-    // Close modal on outside click
-    window.addEventListener("click", function(event) {
-      if (event.target === timeSlotsModal) {
-        timeSlotsModal.close();
-      }
-    });
-        console.log(availabilities)
+  timeSlotsContainer.appendChild(list); // Append the list to the container
+  }
 
 
+
+  renderCalendar();
+
+  nextBtn.addEventListener("click", () => {
+  // increase current month by one
+  currentMonth++;
+  if (currentMonth > 11) {
+    // if month gets greater that 11 make it 0 and increase year by one
+    currentMonth = 0;
+    currentYear++;
+  }
+  // rerender calendar
+  renderCalendar();
+  });
+
+  // prev monyh btn
+  prevBtn.addEventListener("click", () => {
+  // increase by one
+  currentMonth--;
+  // check if let than 0 then make it 11 and deacrease year
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  }
+  renderCalendar();
+  });
+
+  // go to today
+  todayBtn.addEventListener("click", () => {
+  // set month and year to current
+  currentMonth = date.getMonth();
+  currentYear = date.getFullYear();
+  // rerender calendar
+  renderCalendar();
+  });
+
+  // Add the event listener for closing the modal on click outside
+  document.getElementById('timeSlotsModal').addEventListener('click', function(event) {
+  if (event.target === this) {
+    this.close(); // Adjust this line if needed depending on your modal handling
+  }
+  });
+
+  // lets hide today btn if its already current month and vice versa
+
+  function hideTodayBtn() {
+  if (
+    currentMonth === new Date().getMonth() &&
+    currentYear === new Date().getFullYear()
+  ) {
+    todayBtn.style.display = "none";
+  } else {
+    todayBtn.style.display = "flex";
+  }
+  }
   });
 </script>
