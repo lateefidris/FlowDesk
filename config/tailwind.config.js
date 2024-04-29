@@ -12,6 +12,10 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      colors: {
+        // Change the default text color to your desired color
+        'text-default': '#333333', // Replace '#333333' with your preferred color code
+      }
     },
   },
   plugins: [

@@ -41,7 +41,7 @@
 </dialog>
 
 <script type="text/javascript">
-  var availabilities = <%= raw current_user.desks.availability.map { |availability|
+  var availabilities = <%= @desk.availability.map { |availability|
     availability.as_json(methods: [:formatted_start_time, :formatted_end_time])
   }.to_json.html_safe %>;
 </script>
