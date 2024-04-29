@@ -73,7 +73,7 @@ unless Rails.env.production?
         first_name: "Maria", 
         last_name: "Lopez", 
         profile_picture: "https://www.mbmmakeupstudio.com/wp-content/uploads/2021/04/Natural-Makeup-Look-1.jpg",
-        desk_name: "ML Studio",
+        desk_name: "MLStudio",
         bio: "Maria Lopez is a Los Angeles-based makeup artist known for her expertise in bridal and special event makeup. Her work emphasizes natural beauty and has been featured in various media outlets."},
         
         {email: "barber@example.com", 

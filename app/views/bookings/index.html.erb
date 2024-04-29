@@ -1,7 +1,7 @@
 <div class="flex flex-col items-center justify-center w-full mt-8 px-4">
   <h1 class="text-3xl md:text-5xl font-bold text-center">Bookings</h1>
   <div class="text-lg md:text-xl mb-3 text-center">
-    <%= link_to "New booking", new_category_path, class: "text-black hover:text-orange-800" %>
+    <%= link_to "New booking", new_booking_path, class: "text-black hover:text-orange-800" %>
   </div>
   <% if current_user.desks  %>
     <% @statuses.each do |status, bookings| %>
