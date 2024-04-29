@@ -4,6 +4,7 @@ class BookingsController < ApplicationController
   # GET /bookings or /bookings.json
   def index
     @bookings = Booking.all
+    
     @statuses = {
       pending: current_user.desks.bookings.pending,
       confirmed: current_user.desks.bookings.confirmed,
