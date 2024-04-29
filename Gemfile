@@ -111,4 +111,6 @@ gem 'aws-sdk-s3', require: false
 
 gem 'simple_form-tailwind'
 
+gem "pundit"
+
 # gem 'rails_admin' 

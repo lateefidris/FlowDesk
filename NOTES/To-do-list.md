@@ -8,6 +8,9 @@
 - create landing page
 - STYLE ALL PAGES[service.show, service.form, category.form, bookings.index, bookings.show, desk.edit]
 - notification button
+- delete unusused routes with except: [:edit, :new]
+- conditional redirects 
+- hide json
 
 
 - authorizations/pundit
@@ -21,6 +24,7 @@
 - if you have multiple bookings on the same day in the dashboard it will play each one for 4 seconds and fade to next
 
 ## Down the line
+- private users
 - patch and hole availabilty for updating record
 - incorporate AI into professional side and client side
 - add images to services//
