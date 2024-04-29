@@ -2,18 +2,18 @@
 - finish formatting dashboard//
 - create link for client//
 - format client pages//
-- seperate landing and features page
 - format show bookings page//
 - add inputs to edit profile//
-- edit categories
+- edit categories//
 - create landing page
 - STYLE ALL PAGES[service.show, service.form, category.form, bookings.index, bookings.show, desk.edit]
 - notification button
 
 
-- authorizations
+- authorizations/pundit
+- pagination
 - confirmations//
-- make sure you cant create a record without all required fields
+- make sure you cant create a record without all required fields//
 
 
 - send email after booking
@@ -21,6 +21,7 @@
 - if you have multiple bookings on the same day in the dashboard it will play each one for 4 seconds and fade to next
 
 ## Down the line
+- patch and hole availabilty for updating record
 - incorporate AI into professional side and client side
 - add images to services//
 - themes

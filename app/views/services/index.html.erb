@@ -22,6 +22,14 @@
             </li>
           <% end %>
         </ul>
+        <div class="flex justify-center">
+
+          <%= link_to 'Edit ', edit_category_path(category) ,class: "flex justify-center taco-item uppercase text-center text-white text-l tracking-widest"%>
+          <p class="mx-4 text-white">
+            |
+          </p>  
+          <%= link_to ' Delete', category_path(category), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"  }, class: "flex justify-center taco-item uppercase text-center text-white text-l tracking-widest" %>
+        </div>
       </div>
     </div>
   <% end %>

@@ -1,10 +1,10 @@
-<h1>Editing category</h1>
 
-<%= render "form", category: @category %>
-
-<br>
-
-<div>
-  <%= link_to "Back to servies", services_path %>
-  <%= link_to 'Delete Category ', category_path(@category), data: { turbo_method: :delete } %>
 </div>
+<div class="flex flex-col justify-center items-center m-8">
+  <h1 class="text-center py-4 text-3xl font-bold">Edit category</h1>
+  <div class="max-w-xl w-full">
+    <%= render "form", category: @category %>
+  </div>
+  <br>
+</div>
+
