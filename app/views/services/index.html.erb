@@ -1,34 +1,32 @@
-<!--<p style="color: green"><%= notice %></p>-->
-<div class="flex flex-col items-center justify-center w-full mt-8">
-  <h1 class="text-5xl font-bold">Services</h1>
-  <p>
+<div class="flex flex-col items-center justify-center w-full mt-8 px-4">
+  <h1 class="text-3xl md:text-5xl font-bold text-center">Services</h1>
+  <div class="text-lg md:text-xl mb-3 text-center">
     <%= link_to "New category", new_category_path, class: "text-black hover:text-orange-800" %> |
     <%= link_to "New service", new_service_path, class: "text-black hover:text-orange-800" %>
-  </p>
+  </div>
+
   <% current_user.desks.categories.each_with_index do |category, index| %>
-    <div class="collapse collapse-arrow bg-orange-600 rounded-none m-3 p-2 w-full max-w-4xl">
+    <div class="collapse collapse-arrow bg-orange-600 rounded m-3 p-2 w-full max-w-4xl">
       <input type="checkbox" id="accordion-<%= index %>" class="peer hidden-checkbox" />
-      <label for="accordion-<%= index %>" class="collapse-title text-3xl text-center text-white uppercase font-medium cursor-pointer block tracking-[.5em]">
+      <label for="accordion-<%= index %>" class="collapse-title text-xl md:text-3xl text-center text-white uppercase font-medium cursor-pointer block tracking-[.3em] md:tracking-[.5em]">
         <%= category.name %>
       </label>
       <div class="collapse-content transition-all overflow-hidden max-h-0 peer-checked:max-h-96">
         <ul>
           <% category.services.each_with_index do |service, s_index| %>
-            <li class="service-item bg-white m-4 p-4 uppercase text-center text-orange-700 text-l tracking-widest" style="transition-delay: <%= s_index * 0.3 %>s;">
-              <%= link_to service.name, service_path(service), class: "font-bold text-xl" %>
-              <br>
-              <%= link_to 'Edit', edit_service_path(service), class: "hover:text-black" %> |
-              <%= link_to 'Delete', service_path(service), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "hover:text-black" %>
+            <li class="service-item bg-white m-4 p-4 uppercase text-center rounded text-orange-700 tracking-widest" style="transition-delay: <%= s_index * 0.3 %>s;">
+              <p class="font-bold text-lg md:text-xl">
+                <%= link_to service.name, service_path(service), class: "hover:text-black" %>
+              </p>
+              <div class="text-xs md:text-sm">
+                <%= link_to 'Edit', edit_service_path(service), class: "hover:text-black" %> |
+                <%= link_to 'Delete', service_path(service), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "hover:text-black" %>
+              </div>
             </li>
           <% end %>
         </ul>
-        <div class="flex justify-center">
-
-          <%= link_to 'Edit ', edit_category_path(category) ,class: "flex justify-center taco-item uppercase text-center text-white text-l tracking-widest"%>
-          <p class="mx-4 text-white">
-            |
-          </p>  
-          <%= link_to ' Delete', category_path(category), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"  }, class: "flex justify-center taco-item uppercase text-center text-white text-l tracking-widest" %>
+        <div class="flex justify-center align-center mt-4">
+          <%= link_to 'Edit', edit_category_path(category), class: " font-bold text-white px-3 md:px-4 py-1 md:py-2 rounded hover:bg-orange-700 hover:text-white uppercase" %><%= link_to 'Delete', category_path(category), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "ml-2 md:ml-4 text-white px-3 md:px-4 py-1 md:py-2 rounded hover:bg-orange-700 hover:text-white uppercase font-bold" %>
         </div>
       </div>
     </div>

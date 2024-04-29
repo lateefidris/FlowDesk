@@ -1,10 +1,10 @@
-<div class="flex flex-row justify-between space-x-4">
+<div class="flex flex-col md:flex-row justify-between md:space-x-4 md:px-0">
   <% current_user.desks.bookings.confirmed
                  .sort_by { |booking| booking.appointment }
                  .first(3)
                  .each do |booking| %>
     <%= link_to booking_path(booking), class: "no-underline" do %>
-      <div id="booking-<%= booking.id %>" class="px-2 py-3 flex-item bg-gradient-to-tr from-red-600 to-yellow-400 my-3 rounded-md border-2 border-white hover:border-orange-500">
+      <div id="booking-<%= booking.id %>" class="px-4 py-3 flex-item bg-gradient-to-tr from-red-600 to-yellow-400 my-3 rounded-md border-2 border-white hover:border-orange-500">
         <p class="text-5xl text-center text-white">
           <span class="font-bold text-black"><%= booking.date_format[0..2] %></span><%= booking.date_format[3..-1] %>
         </p>

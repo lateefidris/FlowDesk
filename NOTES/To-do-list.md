@@ -40,6 +40,7 @@
 - goals**
 - store policies
 - service request
+- modular components for custom desk
 
 - oauth
 - seo
