@@ -1,19 +1,15 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-green-600 text-center text-sm md:text-base px-4">
+  <%= notice %>
+</p>
 
-<div id="desks" class="flex flex-wrap justify-center">
-
+<div id="desks" class="flex flex-wrap justify-center px-2 mx-auto max-w-3xl">
   <% if current_user.desks.present? %>
-    <div class="">
-      <div>
-        <%= render current_user.desks %>
-      </div>
+    <div class="w-full flex flex-col ">
+      <%= render current_user.desks %>
 
-      <div>
-        <h2 class="bg- bg-black text-center text-4xl uppercase text-orange-100 mt-3 py-3 font-bold">Upcoming Bookings</h2>
-        <div>
-          <%= render partial: "desks/upcoming_bookings" %>
-        </div>
-
+      <div class>
+        <h2 class="text-center text-4xl uppercase text-orange-100 mt-3 py-3 font-bold bg-black">Upcoming Bookings</h2>
+        <%= render partial: "desks/upcoming_bookings" %>
       </div>
     </div>
 
