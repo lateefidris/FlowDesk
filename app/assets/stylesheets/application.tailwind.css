@@ -230,3 +230,12 @@
   opacity: 0;
   pointer-events: none; /* This prevents clicks on the modal when it's invisible */
 }
+
+.taco-item {
+  opacity: 1;
+  transition: opacity 1s ease-in-out; /* Adjust timing as needed */
+}
+/* Define fade-in when element is visible */
+.taco-item.visible {
+  opacity: 1;
+}
