@@ -7,7 +7,7 @@
 - edit categories//
 - create landing page
 - STYLE ALL PAGES[service.show, service.form, category.form, bookings.index, bookings.show, desk.edit]
-- notification button
+- notification button//
 - delete unusused routes with except: [:edit, :new]
 - conditional redirects 
 - hide json

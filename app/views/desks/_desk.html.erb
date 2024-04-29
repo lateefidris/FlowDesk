@@ -5,10 +5,10 @@
     </p>
 
     <div class="">
-      <img src="<%= desk.profile_picture %>" alt="profile picture" >
+       <img src="<%= desk.profile_picture %>" alt="profile picture" class="rounded-full w-72 h-72 lg:w-96 lg:h-96 object-cover">
     </div>
 
-    <h1 class="flex justify-center text-5xl"><%= current_user.desks.name %></h1>
+    <h1 class="flex justify-center text-5xl mt-3"><%= current_user.desks.name %></h1>
 
     <p class="flex justify-center text-orange-600">
       <%= link_to "https://www.Flowdesk.pro/$/#{desk.name}", desk_profile_path(desk.name) %>
