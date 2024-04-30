@@ -1,0 +1,24 @@
+<div class="flex flex-col w-full mt-3 items-center relative">
+  <!-- Ensure the container of the image is centered -->
+  <div class="w-full flex justify-center">
+    <div class="w-72 h-72 lg:w-96 lg:h-96">
+      <img src="<%= @desk.profile_picture %>" alt="profile picture" class="rounded-full w-full h-full object-cover">
+    </div>
+  </div>
+
+  <h1 class="text-5xl mt-3">
+    <%= @desk.name %>
+  </h1>
+
+  <p class="text-orange-600">
+    <%= link_to "https://www.Flowdesk.pro/$/#{@desk.name}", desk_profile_path(@desk.name) %>
+  </p>
+
+  <p class="font-bold">
+    <%= @desk.location %>
+  </p>
+
+  <p class="text-center px-4">
+    <%= @desk.bio %>
+  </p>
+</div>
