@@ -53,3 +53,27 @@ The Impact & Your Vision-
 
 1. my future goals is to make starting and growing your business easier for self employed people who provide a service. We want your business to flow like the name with no blockages, with the app making things easier for both you and your clients. In the future i want flowdesk to accept payment and even incorporate AI that can read your analytics and give feedback and tips on how to improve business. 
 2. I see flowdesk encouraging the average person to try starting a business that they maybe wouldve been to intimidated to do otherwise, creating more job options and enabling people to do what they love and get paid for it.
+
+<hr>
+
+# Code Review
+
+## Documentation
+- Missing setup and installation. Your readme file should help outside developers easily onboard onto your project.
+- Missing contribution guidelines
+- This reads more like a functional specification or product overview than a traditional README file. See the rubric to review basic components of a readme file
+
+## Version Control
+- Good branching and merging overall
+- Good commit comments
+- No issue tracking and linking to your pull requests
+
+## Code Hygiene
+- Lots of commented out code! Get rid of code that you are not using
+- Move reusable components such as flashes to partial view templates to improve readability
+
+## Frontend
+- In development, the frontend is very buggy. We were unable to review front end in production. Received 502 bad gateway error.
+
+## Deployment
+- Url submitted in 

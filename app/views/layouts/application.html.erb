@@ -2,12 +2,13 @@
 <html data-theme="light">
   <head>
     <title>FlowDesk</title>
-   
+    <%# Nitpick: remove blank line; keep spacing consistent%>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%# Currently, your tailwind file is named 'application.tailwind' rather than 'tailwind'%>
+    <%= stylesheet_link_tag "application.tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_importmap_tags %>
@@ -20,6 +21,7 @@
 
   <body>
     <%= render partial: "shared/navbar" %>
+    <%# Re-factor and place flash in a partial%>
     <div class="container mx-auto px-4 md:px-8 lg:px-12 mb-10">
       <% flash.each do |name, msg| %>
         <%= content_tag(:div, msg, class: "flash #{name} w-full sm:w-3/4 md:w-1/2 mx-auto") %>
