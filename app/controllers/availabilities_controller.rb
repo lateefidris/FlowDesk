@@ -4,7 +4,7 @@ class AvailabilitiesController < ApplicationController
   # GET /availabilities or /availabilities.json
   def index
     @availabilities = Availability.all
-    
+
   end
 
   # GET /availabilities/1 or /availabilities/1.json
@@ -74,7 +74,7 @@ class AvailabilitiesController < ApplicationController
         { id: "Sunday", name: "Sunday" }
       ].map { |day| OpenStruct.new(day) }  # Convert each hash to an OpenStruct object
     end
-    
+    # Nitpick: Remove extra/unnecessary lines. Keep spacing consistent
 
     # Only allow a list of trusted parameters through.
     def availability_params
